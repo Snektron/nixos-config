@@ -278,7 +278,6 @@
         term = "foot";
         font = "monospace:size=7, Noto Color Emoji:size=7";
         dpi-aware = "yes";
-        # TODO: Add monitor in amsterdam office
         monitor-scale = "eDP-1:1, Goldstar:1.8, QROM8HA000914:1.5";
       };
       mouse.hide-when-typing = "yes";
@@ -458,7 +457,7 @@
             position = "440,1440";
           }
           {
-            criteria = "Unknown U34P2G1 QROM8HA000914 (HDMI-A-1)";
+            criteria = "Unknown U34P2G1 QROM8HA000914";
             status = "enable";
             mode = "3440x1440@100Hz";
             position = "0,0";
@@ -474,7 +473,7 @@
             position = "0,1440";
           }
           {
-            criteria = "Goldstar Company Ltd 27GL850 011NTABE4544 (HDMI-A-1)";
+            criteria = "Goldstar Company Ltd 27GL850 011NTABE4544";
             status = "enable";
             mode = "2560x1440@60Hz";
             position = "0,0";
