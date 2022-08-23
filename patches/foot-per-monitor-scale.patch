@@ -1,0 +1,210 @@
+diff --git a/config.c b/config.c
+index c5fad01a..5dec8e58 100644
+--- a/config.c
++++ b/config.c
+@@ -415,6 +415,73 @@ value_to_bool(struct context *ctx, bool *res)
+     return false;
+ }
+ 
++static bool
++config_monitor_scale_parse(char *pattern, struct config_monitor_scale *scale)
++{
++    char *scale_factor_str = strrchr(pattern, ':');
++    if (!scale_factor_str)
++        return false;
++
++    scale_factor_str[0] = 0;
++
++    if (pattern[0] == 0)
++        return false;
++
++    errno = 0;
++    char *end = NULL;
++    scale->scale = strtof(scale_factor_str + 1, &end);
++    if (!(errno == 0 && *end == '\0')) {
++        return false;
++    }
++
++    scale->pattern = xstrdup(pattern);
++
++    return true;
++}
++
++static struct config_monitor_scale_list NOINLINE
++value_to_monitor_scale(struct context *ctx)
++{
++    size_t count = 0;
++    size_t size = 0;
++    struct config_monitor_scale *scales = NULL;
++
++    char *copy = xstrdup(ctx->value);
++    for (char *scale = strtok(copy, ",");
++         scale != NULL;
++         scale = strtok(NULL, ","))
++    {
++        /* Trim spaces, strictly speaking not necessary, but looks nice :) */
++        while (isspace(scale[0]))
++            scale++;
++
++        if (scale[0] == '\0')
++            continue;
++
++        struct config_monitor_scale scale_data;
++        if (!config_monitor_scale_parse(scale, &scale_data)) {
++            ctx->value = scale;
++            LOG_CONTEXTUAL_ERR("invalid monitor scale specification");
++            goto err;
++        }
++
++        if (count + 1 > size) {
++            size += 4;
++            scales = xrealloc(scales, size * sizeof(scales[0]));
++        }
++
++        xassert(count + 1 <= size);
++        scales[count++] = scale_data;
++    }
++
++    free(copy);
++    return (struct config_monitor_scale_list){.arr = scales, .count = count};
++
++err:
++    free(copy);
++    free(scales);
++    return (struct config_monitor_scale_list){.arr = NULL, .count = 0};
++}
+ 
+ static bool NOINLINE
+ str_to_ulong(const char *s, int base, unsigned long *res)
+@@ -946,6 +1013,16 @@ parse_section_main(struct context *ctx)
+     else if (strcmp(key, "box-drawings-uses-font-glyphs") == 0)
+         return value_to_bool(ctx, &conf->box_drawings_uses_font_glyphs);
+ 
++    else if (strcmp(key, "monitor-scale") == 0) {
++        struct config_monitor_scale_list new_list = value_to_monitor_scale(ctx);
++        if (new_list.arr == NULL)
++            return false;
++
++        config_monitor_scale_list_destroy(&conf->monitor_scale);
++        conf->monitor_scale = new_list;
++        return true;
++    }
++
+     else {
+         LOG_CONTEXTUAL_ERR("not a valid option: %s", key);
+         return false;
+@@ -2795,6 +2872,7 @@ config_load(struct config *conf, const char *conf_path,
+             .osc8_underline = OSC8_UNDERLINE_URL_MODE,
+         },
+         .can_shape_grapheme = fcft_caps & FCFT_CAPABILITY_GRAPHEME_SHAPING,
++        .monitor_scale = {0},
+         .scrollback = {
+             .lines = 1000,
+             .indicator = {
+@@ -3258,6 +3336,15 @@ config_font_list_destroy(struct config_font_list *font_list)
+     font_list->arr = NULL;
+ }
+ 
++void
++config_monitor_scale_list_destroy(struct config_monitor_scale_list *monitor_scale_list)
++{
++    for (size_t i = 0; i < monitor_scale_list->count; i++)
++        free(monitor_scale_list->arr[i].pattern);
++    free(monitor_scale_list->arr);
++    monitor_scale_list->count = 0;
++    monitor_scale_list->arr = NULL;
++}
+ 
+ bool
+ check_if_font_is_monospaced(const char *pattern,
+diff --git a/config.h b/config.h
+index 2061415e..c295d67a 100644
+--- a/config.h
++++ b/config.h
+@@ -33,6 +33,12 @@ struct config_font {
+ };
+ DEFINE_LIST(struct config_font);
+ 
++struct config_monitor_scale {
++    char *pattern;
++    float scale;
++};
++DEFINE_LIST(struct config_monitor_scale);
++
+ struct config_key_modifiers {
+     bool shift;
+     bool alt;
+@@ -148,6 +154,8 @@ struct config {
+     bool box_drawings_uses_font_glyphs;
+     bool can_shape_grapheme;
+ 
++    struct config_monitor_scale_list monitor_scale;
++
+     struct {
+         bool urgent;
+         bool notify;
+@@ -335,6 +343,7 @@ struct config *config_clone(const struct config *old);
+ 
+ bool config_font_parse(const char *pattern, struct config_font *font);
+ void config_font_list_destroy(struct config_font_list *font_list);
++void config_monitor_scale_list_destroy(struct config_monitor_scale_list *monitor_scale_list);
+ 
+ struct seat;
+ xkb_mod_mask_t
+diff --git a/foot.ini b/foot.ini
+index 21c49174..c18366cd 100644
+--- a/foot.ini
++++ b/foot.ini
+@@ -33,6 +33,8 @@
+ # selection-target=primary
+ # workers=<number of logical CPUs>
+ 
++# monitor-scale=eDPI-1:1 HDMI-A-1:1.8
++
+ [bell]
+ # urgent=no
+ # notify=no
+diff --git a/terminal.c b/terminal.c
+index dcaca033..f8a1699c 100644
+--- a/terminal.c
++++ b/terminal.c
+@@ -726,6 +726,20 @@ term_set_fonts(struct terminal *term, struct fcft_font *fonts[static 4])
+     return true;
+ }
+ 
++static float get_monitor_scaled_dpi(const struct terminal *term, const struct monitor *mon)
++{
++    float dpi = mon->dpi;
++    /* Try to match a monitor from the config, and multiply the dpi by that */
++    for (size_t i = 0; i < term->conf->monitor_scale.count; ++i) {
++        const struct config_monitor_scale *scale = &term->conf->monitor_scale.arr[i];
++        if (strstr(mon->description, scale->pattern) != NULL) {
++            dpi *= scale->scale;
++            break;
++        }
++    }
++    return dpi;
++}
++
+ static float
+ get_font_dpi(const struct terminal *term)
+ {
+@@ -754,14 +768,15 @@ get_font_dpi(const struct terminal *term)
+     double dpi = 0.0;
+     xassert(term->window != NULL);
+     tll_foreach(term->window->on_outputs, it) {
+-        if (it->item->dpi > dpi)
+-            dpi = it->item->dpi;
++        float monitor_dpi = get_monitor_scaled_dpi(term, it->item);
++        if (monitor_dpi > dpi)
++            dpi = monitor_dpi;
+     }
+ 
+     /* If we're not mapped, use DPI from first monitor. Hopefully this is where we'll get mapped later... */
+     if (dpi == 0.) {
+         tll_foreach(term->wl->monitors, it) {
+-            dpi = it->item.dpi;
++            dpi = get_monitor_scaled_dpi(term, &it->item);
+             break;
+         }
+     }

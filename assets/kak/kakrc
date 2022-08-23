@@ -1,0 +1,255 @@
+colorscheme afterglow
+
+# --- Editor settings --
+# Tab size of 4 spaces
+set-option global tabstop 4
+set-option global indentwidth 4
+
+# Disable default insert and indent hooks
+set-option global disabled_hooks '.*-indent.*|.*-insert.*|c-family-insert'
+
+hook global InsertChar \n %{
+    try %{ execute-keys -draft <semicolon> K <a-&> }
+}
+
+# Trim trailing whitspaces on the entire file when saving the file.
+hook global BufWritePre .* -group auto-trim %{
+    try %{ execute-keys -draft '%s\h+$<ret>d' }
+}
+
+hook global ModuleLoaded clang %{ set-option clang_options -std=c++20 -Isrc -Iinclude -I. }
+
+# Always create directories
+hook global BufWritePre .* mkdir
+
+# Always reload the file on change
+set-option global autoreload yes
+
+# Enable editorconfig
+hook global BufOpenFile .* %{ editorconfig-load }
+hook global BufNewFile .* %{ editorconfig-load }
+
+# Custom header guard syntax
+hook global BufNewFile .*\.(h|hh|hpp|hxx|H) guard
+
+
+# --- Language-specific settings ---
+hook global WinSetOption filetype=(c|cpp) %{
+    clang-enable-autocomplete
+    # clang-enable-diagnostics
+    alias window lint clang-parse
+    alias window lint-next-error clang-diagnostics-next
+
+    # Override some symbols to the proper type
+    add-highlighter -override shared/cpp/code/ regex '\b(?:true|false|nullptr|this|NULL)\b' 0:builtin
+    add-highlighter -override shared/c/code/ regex '\b(?:true|false|nullptr|this|NULL)\b' 0:builtin
+}
+
+hook global WinSetOption filetype=zig %{
+    # Override some zig symbols to the proper type
+    add-highlighter -override shared/zig/code/ regex '\b(?:true|false|null|undefined)\b' 0:builtin
+    add-highlighter shared/zig/code/ regex '\b(?:anyopaque)\b' 0:type
+}
+
+hook global WinSetOption filetype=latex %{
+    # Add soft wrapping on long lines
+    add-highlighter window/latex-word-wrap wrap -word -indent
+}
+
+hook global WinSetOption filetype=nix %{
+    set-option window tabstop 2
+    set-option window indentwidth 2
+}
+
+hook global BufCreate .*\.cuh$ %{
+    set-option buffer filetype c++
+}
+
+# Tab settings (no tabs allowed)
+map global insert <tab> '<a-;><a-gt>'
+map global insert <s-tab> '<a-;><a-lt>'
+
+map global normal <tab> '<a-gt>'
+map global normal <s-tab> '<a-lt>'
+
+map global goto '}' '<esc><a-a>B;' -docstring 'closing brace'
+map global goto '{' '<esc><a-a>B<a-;>;' -docstring 'opening brace'
+
+# --- UI settings ---
+hook global WinCreate .* %{
+    add-highlighter window/number-lines number-lines -relative -hlcursor -separator ' '
+}
+
+add-highlighter global/ regex \h+$ 0:Error
+add-highlighter global/ show-matching
+add-highlighter global/ line '%val{cursor_line}' default,rgb:383838
+
+set-option global ui_options terminal_assistant=none
+set-option global startup_info_version 20220704
+set-option global scrolloff 1,3
+
+set-face global CurWord default+b
+
+hook global NormalIdle .* %{
+    eval -draft %{ try %{
+        exec <space><a-i>w <a-k>\A\w+\z<ret>
+        add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
+    } catch %{
+        add-highlighter -override global/curword group
+    } }
+}
+
+set-face global InsertCursor default,bright-blue
+
+hook global ModeChange .*:.*:insert %{
+    set-face window PrimaryCursor InsertCursor
+    set-face window PrimaryCursorEol InsertCursor
+}
+
+hook global ModeChange .*:insert:.* %{ try %{
+    unset-face window PrimaryCursor
+    unset-face window PrimaryCursorEol
+} }
+
+declare-option str cursor_line_len -hidden
+hook global WinCreate .* %{
+    hook window NormalIdle .* %{
+        eval -save-regs 'm' %{
+            exec -draft '<space>;<a-x>:reg m %reg{.}<ret>'
+            set window cursor_line_len %sh{printf "%s" "$kak_reg_m" | wc -m}
+        }
+    }
+}
+
+set-option global modelinefmt '%val{bufname} %val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column}/%opt{cursor_line_len} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
+
+# --- Plugins ---
+
+#plug "kakoune-editor/kakoune-extra-filetypes"
+
+eval %sh{kak-lsp --kakoune -s $kak_session}
+
+hook global WinSetOption filetype=(c|cpp) -group c-cpp-lsp %{
+   lsp-enable-window
+}
+
+source "%val{config}/rc/clipb.kak"
+source "%val{config}/rc/foot.kak"
+source "%val{config}/rc/sudo-write.kak"
+source "%val{config}/rc/wiki.kak"
+source "%val{config}/rc/z80.kak"
+
+clipb-detect
+clipb-enable
+set-option global clipb_multiple_selections 'true'
+
+# --- Commands ---
+set-option global grepcmd 'rg -Hn --no-heading'
+
+define-command guard -docstring "Generate header guards for the current file" %{
+    eval %sh{
+        p="$(basename $PWD)_"
+        printf "exec i$kak_bufname<esc>xs(/|\.)<ret>r_xs^(include|src)_<ret>dI$p<esc>xs^($p){1,2}<ret>c$p<esc>x~yI#ifndef<space>_<esc>o#define<space>_<c-r>\"<ret><ret><ret>#endif<esc>kk"
+    }
+}
+
+define-command rofi-buffers -docstring 'Select an open buffer using Rofi' %{
+    eval %sh{
+        BUFFER=$(printf "%s\n" "${kak_buflist}" | tr " " "\n" | rofi -dmenu -p buffers -i | tr -d \')
+        if [ -n "$BUFFER" ]; then
+            printf "%s\n" "buffer ${BUFFER}"
+        fi
+    }
+}
+
+define-command rofi-files -docstring 'Select a file using Rofi' %{
+    eval %sh{
+        BUFFER=$(fd --type f | awk '{dirname=$0; sub(/\/[^\/]*\/?$/, "", dirname); print dirname, $0}' | sort -V | cut -d' ' -f2 | rofi -dmenu -p files -i | tr -d \')
+        if [ -n "$BUFFER" ]; then
+            printf "%s\n" "edit ${BUFFER}"
+        fi
+    }
+}
+
+define-command trim -docstring 'Trim trailing whitespace in the current buffer' %{
+    try %{ execute-keys -draft '%s\h+$<ret>d' }
+}
+
+# Make directories for the current file
+define-command mkdir -docstring 'Make directories for the current file' %{
+    nop %sh{ mkdir -p "$(dirname "$kak_buffile")" }
+}
+
+# --- Key bindings ---
+# Word & char count
+map global user '<a-w>' %{:echo %sh{wc -w <lt><lt><lt> "$kak_selection"}<ret>} -docstring 'Count words in selection'
+map global user '<a-c>' %{:echo %sh{printf "%s" "$kak_selection" | wc -m}<ret>} -docstring 'Count chars in selection'
+
+# Calculator
+map global normal '=' %{:prompt 'math: ' %{echo %sh{qalc -t +u8 "$kak_text"}}<ret>}
+map global normal '+' %{:prompt 'insert math: ' %{exec "!qalc -t +u8 ""%val{text}""<lt>ret>i<lt>backspace><lt>esc>"}<ret>}
+map global normal <a-=> '|qalc -t +u8 -f -<ret>'
+
+map global normal <c-p> ':rofi-files<ret>'
+map global normal <c-b> ':rofi-buffers<ret>'
+
+map global normal '#' ':comment-line<ret>'
+map global normal Q ':db<ret>'
+
+map global insert <s-backspace> <backspace>
+map global prompt <s-backspace> <backspace>
+
+# TODO: Patch kakoune
+map global insert <s-space> <space>
+map global prompt <s-space> <space>
+
+# Disable arrow keys
+map global insert <left> ''
+map global insert <right> ''
+map global insert <up> ''
+map global insert <down> ''
+
+map global normal <left> ''
+map global normal <right> ''
+map global normal <up> ''
+map global normal <down> ''
+
+map global normal <s-left> ''
+map global normal <s-right> ''
+map global normal <s-up> ''
+map global normal <s-down> ''
+
+# Change user mode key to space
+map global normal <space> , -docstring 'leader'
+map global normal <backspace> <space> -docstring 'Remove all except main selection'
+map global normal <a-backspace> <a-space> -docstring 'Remove main selection'
+
+map global user <space> <space> -docstring 'Remove all except main selection'
+map global user <a-space> <a-space> -docstring 'Remove main selection'
+
+# Change x and a-x
+map global normal x <a-x>
+map global normal <a-x> x
+
+# LSP mode
+map global user l %{:enter-user-mode lsp<ret>} -docstring 'Enter LSP mode'
+
+# WIKI mode
+map global user w ': wiki<ret>' -docstring 'Enter wiki mode'
+
+# Use enter to cycle checkboxes in wiki mode
+hook global WinSetOption filetype=wiki %{
+    map buffer normal <ret> ':wiki-cycle-checkbox<ret>' -docstring 'Cycle checkbox'
+}
+
+# --- Project ---
+
+# Look for local kakoune config and load it if its there
+eval %sh{
+    if [ -f .kakrc ]; then
+        printf "%s\n" "source $PWD/.kakrc"
+    fi
+    if [ -f .private/kakrc ]; then
+        printf "%s\n" "source $PWD/.private/kakrc"
+    fi
+}

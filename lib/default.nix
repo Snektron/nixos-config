@@ -1,0 +1,2 @@
+{ config, overlays, inputs }: {
+}
