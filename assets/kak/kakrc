@@ -61,7 +61,7 @@ hook global WinSetOption filetype=nix %{
     set-option window indentwidth 2
 }
 
-hook global BufCreate .*\.cuh$ %{
+hook global BufCreate .*\.(cuh|cu|hip)$ %{
     set-option buffer filetype c++
 }
 

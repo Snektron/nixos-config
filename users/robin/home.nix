@@ -17,40 +17,44 @@
     _JAVA_AWT_WM_NONREPARENTING = 1;
     GDK_BACKEND = "wayland";
     EDITOR = "${pkgs.kakoune}/bin/kak";
+    # PAGER = "${pkgs.kakoune}/bin/kak";
   };
 
-  home.packages = [
-    pkgs.acpi
-    pkgs.bintools-unwrapped
-    pkgs.bluez
-    pkgs.clang-tools_14
-    pkgs.dejavu_fonts
-    pkgs.fd
-    pkgs.font-awesome_5
-    pkgs.gnupg
-    pkgs.grim
-    pkgs.htop
-    pkgs.kak-lsp
-    pkgs.kakoune
-    pkgs.libqalculate
-    pkgs.lm_sensors
-    pkgs.lsyncd
-    pkgs.noto-fonts
-    pkgs.noto-fonts-cjk
-    pkgs.noto-fonts-emoji
-    pkgs.pavucontrol
-    pkgs.ripgrep
-    pkgs.river
-    pkgs.roboto
-    pkgs.skypeforlinux
-    pkgs.slurp
-    pkgs.tdesktop
-    pkgs.thunderbird
-    pkgs.unzip
-    pkgs.visidata
-    pkgs.wl-clipboard
-    pkgs.xdg-desktop-portal-gtk
-    pkgs.zip
+  home.packages = with pkgs; [
+    acpi
+    bintools-unwrapped
+    bluez
+    clang-tools_14
+    dejavu_fonts
+    fd
+    font-awesome_5
+    gnupg
+    grim
+    htop
+    kak-lsp
+    kakoune
+    killall
+    libqalculate
+    lm_sensors
+    lsyncd
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    pavucontrol
+    python3
+    ripgrep
+    river
+    roboto
+    skypeforlinux
+    slurp
+    tdesktop
+    thunderbird
+    unzip
+    usbutils
+    visidata
+    wl-clipboard
+    xdg-desktop-portal-gtk
+    zip
   ];
 
   fonts.fontconfig.enable = true;
@@ -224,6 +228,13 @@
     shellAbbrs = {
       gs = "git status";
       gl = "git log --oneline";
+      ga = "git add";
+      gd = "git diff";
+      gdc = "git diff --cached";
+      gf = "git fetch";
+      gfa = "git fetch --all";
+      gp = "git push";
+      gpf = "git push --force-with-lease";
     };
     plugins = [
       {
@@ -297,6 +308,12 @@
     };
     profiles.robin = {
       id = 0; # default
+      userChrome = ''
+        @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* set default namespace to XUL */
+        .titlebar-spacer[type="pre-tabs"] {
+          display: none !important;
+        }
+      '';
     };
   };
 
@@ -390,6 +407,11 @@
     image = ../../assets/backgrounds/oxybelis.jpg;
     mode = "fill";
     systemdTarget = "river-session.target";
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   services.kanshi = {

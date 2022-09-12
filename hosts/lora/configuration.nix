@@ -35,6 +35,7 @@
     modesetting.enable = true;
     prime.sync.enable = true;
     prime.offload.enable = false;
+    powerManagement.enable = true;
   };
 
   hardware.opengl.enable = true;
