@@ -17,17 +17,17 @@
     _JAVA_AWT_WM_NONREPARENTING = 1;
     GDK_BACKEND = "wayland";
     EDITOR = "${pkgs.kakoune}/bin/kak";
-    # PAGER = "${pkgs.kakoune}/bin/kak";
   };
 
   home.packages = with pkgs; [
     acpi
     bintools-unwrapped
+    bitwarden
     bluez
-    clang-tools_14
     dejavu_fonts
     fd
     font-awesome_5
+    fzf
     gnupg
     grim
     htop
@@ -54,6 +54,7 @@
     visidata
     wl-clipboard
     xdg-desktop-portal-gtk
+    zeal
     zip
   ];
 
@@ -235,6 +236,9 @@
       gfa = "git fetch --all";
       gp = "git push";
       gpf = "git push --force-with-lease";
+      gc = "git commit";
+      gcm = "git commit -m";
+      gca = "git commit --amend --no-edit";
     };
     plugins = [
       {
@@ -244,6 +248,15 @@
           repo = "z";
           rev = "85f863f20f24faf675827fb00f3a4e15c7838d76";
           sha256 = "+FUBM7CodtZrYKqU542fQD+ZDGrd2438trKM0tIESs0=";
+        };
+      }
+      {
+        name = "fzf.fish";
+        src = pkgs.fetchFromGitHub {
+          owner = "PatrickF1";
+          repo = "fzf.fish";
+          rev = "1a0bf6c66ce37bfb0b4b0d96d14e958445c21448";
+          sha256 = "sha256-1Rx17Y/NgPQR4ibMnsZ/1UCnNbkx6vZz43IKfESxcCA=";
         };
       }
     ];
@@ -434,13 +447,13 @@
             criteria = "eDP-1";
             status = "enable";
             mode = "2560x1440@120Hz";
-            position = "0,0";
+            position = "440,1440";
           }
           {
             criteria = "Unknown U34P2G1 QROM8HA000914 (HDMI-A-1)";
             status = "enable";
             mode = "3440x1440@100Hz";
-            position = "-440,-1440";
+            position = "0,0";
           }
         ];
       };
@@ -450,23 +463,13 @@
             criteria = "eDP-1";
             status = "enable";
             mode = "2560x1440@120Hz";
+            position = "0,1440";
+          }
+          {
+            criteria = "Goldstar Company Ltd 27GL850 011NTABE4544 (HDMI-A-1)";
+            status = "enable";
+            mode = "2560x1440@60Hz";
             position = "0,0";
-          }
-          {
-            criteria = "Goldstar Company Ltd 27GL850 011NTABE4544 (HDMI-A-1)";
-            status = "enable";
-            mode = "2560x1440@60Hz";
-            position = "0,-1440";
-          }
-        ];
-      };
-      closedAtHome = {
-        outputs = [
-          {
-            criteria = "Goldstar Company Ltd 27GL850 011NTABE4544 (HDMI-A-1)";
-            status = "enable";
-            mode = "2560x1440@60Hz";
-            position = "0,-1440";
           }
         ];
       };

@@ -43,6 +43,8 @@ hook global WinSetOption filetype=(c|cpp) %{
     # Override some symbols to the proper type
     add-highlighter -override shared/cpp/code/ regex '\b(?:true|false|nullptr|this|NULL)\b' 0:builtin
     add-highlighter -override shared/c/code/ regex '\b(?:true|false|nullptr|this|NULL)\b' 0:builtin
+
+    set global formatcmd clang-format
 }
 
 hook global WinSetOption filetype=zig %{
