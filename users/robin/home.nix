@@ -24,6 +24,7 @@
     bintools-unwrapped
     bitwarden
     bluez
+    chromium
     dejavu_fonts
     fd
     font-awesome_5
@@ -35,13 +36,17 @@
     kakoune
     killall
     libqalculate
+    libtree
     lm_sensors
     lsyncd
+    meld
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
+    obs-studio
     pavucontrol
     python3
+    remmina
     ripgrep
     river
     roboto
