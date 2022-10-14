@@ -17,6 +17,11 @@
   boot = {
     cleanTmpDir = true;
     kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = [ "v4l2loopback" ];
+    extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
+    extraModprobeConfig = ''
+      options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
+    '';
   };
 
   ## Filesystem configuration
@@ -38,8 +43,11 @@
     powerManagement.enable = true;
   };
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+  };
+
   programs.xwayland.enable = true;
 
   services.greetd = {
@@ -110,6 +118,7 @@
   ## Standard environment
   environment.systemPackages = [
     pkgs.home-manager
+    pkgs.nvidia-docker
   ];
 
   programs.fish.enable = true;
