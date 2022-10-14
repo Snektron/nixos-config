@@ -32,7 +32,6 @@ hook global BufNewFile .* %{ editorconfig-load }
 # Custom header guard syntax
 hook global BufNewFile .*\.(h|hh|hpp|hxx|H) guard
 
-
 # --- Language-specific settings ---
 hook global WinSetOption filetype=(c|cpp) %{
     clang-enable-autocomplete
@@ -65,6 +64,10 @@ hook global WinSetOption filetype=nix %{
 
 hook global BufCreate .*\.(cuh|cu|hip)$ %{
     set-option buffer filetype c++
+}
+
+hook global WinSetOption filetype=markdown %{
+    add-highlighter window/wrap wrap -word -indent
 }
 
 # Tab settings (no tabs allowed)
