@@ -87,7 +87,6 @@
       pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
     ];
-    gtkUsePortal = true;
   };
 
   ## Audio
@@ -118,7 +117,6 @@
   ## Standard environment
   environment.systemPackages = [
     pkgs.home-manager
-    pkgs.nvidia-docker
   ];
 
   programs.fish.enable = true;

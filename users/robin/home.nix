@@ -21,6 +21,7 @@
 
   home.packages = with pkgs; [
     acpi
+    (aspellWithDicts (dicts: [dicts.en dicts.en-computers dicts.en-science]))
     bintools-unwrapped
     bitwarden
     bluez
@@ -40,6 +41,7 @@
     lm_sensors
     lsyncd
     meld
+    mutagen
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
@@ -50,7 +52,6 @@
     ripgrep
     river
     roboto
-    skypeforlinux
     slurp
     tdesktop
     thunderbird
@@ -59,6 +60,7 @@
     visidata
     wl-clipboard
     xdg-desktop-portal-gtk
+    xdg-utils # xdg-open required for foot url thingy
     zeal
     zip
   ];
@@ -206,6 +208,7 @@
     extraConfig = {
       pull.rebase = true;
       color.ui = true;
+      diff.tool = "meld";
     };
   };
 
@@ -217,7 +220,7 @@
         user = "git";
       };
     };
-    # Remote servers cannot feal with TERM=foot
+    # Remote servers cannot deal with TERM=foot
     extraConfig = ''
       SetEnv TERM=xterm-256color
     '';

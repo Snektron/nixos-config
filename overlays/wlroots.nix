@@ -3,7 +3,7 @@ self: super: {
   wlroots = super.wlroots.overrideAttrs (old: rec {
     version = "0.16.0";
     src = self.fetchFromGitLab {
-       domain = "gitlab.freedesktop.org";
+      domain = "gitlab.freedesktop.org";
       owner = "wlroots";
       repo = "wlroots";
       rev = version;
