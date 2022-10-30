@@ -504,7 +504,7 @@
       name = "Numix";
     };
     cursorTheme = {
-      package = pkgs.breeze-obsidian-cursor-theme;
+      package = inputs.self.packages.${pkgs.system}.breeze-obsidian-cursor-theme;
       name = "Breeze_Obsidian";
     };
     iconTheme = {
@@ -514,5 +514,5 @@
   };
 
   # For good measure
-  home.file.".icons/default".source = "${pkgs.breeze-obsidian-cursor-theme}/share/icons/Breeze_Obsidian";
+  home.file.".icons/default".source = "${inputs.self.packages.${pkgs.system}.breeze-obsidian-cursor-theme}/share/icons/Breeze_Obsidian";
 }

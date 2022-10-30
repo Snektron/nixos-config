@@ -1,14 +1,16 @@
-{ config, overlays, inputs }:
-inputs.home-manager.lib.homeManagerConfiguration rec {
+{ inputs, nixpkgs-config }:
+let
+  # TODO: Perhaps the arch should not be hardcoded here?
+  system = "x86_64-linux";
+in inputs.home-manager.lib.homeManagerConfiguration {
   modules = [
     {
-      nixpkgs = { inherit config overlays; };
+      nixpkgs = nixpkgs-config;
     }
     ./home.nix
   ];
 
-  # TODO: Perhaps the arch should not be hardcoded here?
-  pkgs = inputs.nixpkgs.outputs.legacyPackages.x86_64-linux;
+  pkgs = inputs.nixpkgs.outputs.legacyPackages.${system};
 
   extraSpecialArgs = { inherit inputs; };
 }

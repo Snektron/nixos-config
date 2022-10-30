@@ -1,4 +1,3 @@
-# TODO: Move river over to user in its entirety?
 { config, lib, pkgs, ...}:
 let
   inherit (lib.options) mkEnableOption mkOption;

@@ -1,11 +1,11 @@
-{ config, overlays, inputs }:
+{ inputs, nixpkgs-config }:
 inputs.nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
   modules = [
     inputs.nixos-hardware.nixosModules.asus-zephyrus-ga401
     {
-      nixpkgs = { inherit config overlays; };
+      nixpkgs = { inherit system; } // nixpkgs-config;
       nix = import ../../nix-settings.nix { inherit inputs system; };
     }
     # Use the pinned inputs as channels in the final configuration.
@@ -17,5 +17,5 @@ inputs.nixpkgs.lib.nixosSystem rec {
     }
   ];
 
-  specialArgs = { inherit inputs system; };
+  specialArgs = { inherit inputs; };
 }
