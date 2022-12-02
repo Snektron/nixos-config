@@ -6,7 +6,7 @@
 
   home.username = "robin";
   home.homeDirectory = "/home/robin";
-  home.stateVersion = "22.05";
+  home.stateVersion = "22.11";
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
@@ -27,6 +27,7 @@
     bluez
     chromium
     dejavu_fonts
+    editorconfig-core-c
     fd
     font-awesome_5
     fzf
@@ -41,6 +42,8 @@
     lm_sensors
     lsyncd
     meld
+    moreutils
+    montserrat
     mutagen
     noto-fonts
     noto-fonts-cjk
@@ -195,6 +198,8 @@
   programs.git = {
     enable = true;
 
+    package = pkgs.gitFull;
+
     userName = "Robin Voetter";
     userEmail = "robin@streamhpc.com";
 
@@ -206,6 +211,7 @@
     ignores = [ ".private" ".cache" ];
 
     extraConfig = {
+      core.autocrlf = false;
       pull.rebase = true;
       color.ui = true;
       diff.tool = "meld";
@@ -232,6 +238,7 @@
       tabs -4
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
       set fish_greeting
+      fish_vi_key_bindings
       ${pkgs.gnupg}/bin/gpg-connect-agent updatestartuptty /bye > /dev/null
     '';
     shellAbbrs = {
@@ -247,6 +254,8 @@
       gc = "git commit";
       gcm = "git commit -m";
       gca = "git commit --amend --no-edit";
+      gco = "git checkout";
+      grc = "git rebase --continue";
     };
     plugins = [
       {
@@ -310,7 +319,6 @@
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-      forceWayland = true;
       extraPolicies = {
         DisableFirefoxStudies = true;
         DisablePocket = true;
@@ -434,6 +442,17 @@
     nix-direnv.enable = true;
   };
 
+  programs.thunderbird = {
+    enable = true;
+    profiles.robin = {
+      isDefault = true;
+      withExternalGnupg = true;
+    };
+    settings = {
+      "privacy.donottrackheader.enabled" = true;
+    };
+  };
+
   services.kanshi = {
     enable = true;
     systemdTarget = "river-session.target";
@@ -443,7 +462,7 @@
           {
             criteria = "eDP-1";
             status = "enable";
-            mode = "2560x1440@120Hz";
+            mode = "2560x1440@60Hz";
             position = "0,0";
           }
         ];
@@ -453,13 +472,13 @@
           {
             criteria = "eDP-1";
             status = "enable";
-            mode = "2560x1440@120Hz";
+            mode = "2560x1440@60Hz";
             position = "440,1440";
           }
           {
             criteria = "Unknown U34P2G1 QROM8HA000914";
             status = "enable";
-            mode = "3440x1440@100Hz";
+            mode = "3440x1440@60Hz";
             position = "0,0";
           }
         ];
@@ -469,7 +488,7 @@
           {
             criteria = "eDP-1";
             status = "enable";
-            mode = "2560x1440@120Hz";
+            mode = "2560x1440@60Hz";
             position = "0,1440";
           }
           {
