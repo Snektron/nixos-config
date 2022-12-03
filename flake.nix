@@ -28,6 +28,9 @@
     nixosConfigurations.lora = import ./hosts/lora {
       inherit inputs nixpkgs-config;
     };
+    nixosConfigurations.python = import ./hosts/python {
+      inherit inputs nixpkgs-config;
+    };
 
     homeConfigurations.robin = import ./users/robin {
       inherit inputs nixpkgs-config;

@@ -205,8 +205,8 @@ map global insert <s-backspace> <backspace>
 map global prompt <s-backspace> <backspace>
 
 # TODO: Patch kakoune
-map global insert <s-space> <space>
-map global prompt <s-space> <space>
+# map global insert <s-space> <space>
+# map global prompt <s-space> <space>
 
 # Disable arrow keys
 map global insert <left> ''

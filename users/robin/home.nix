@@ -287,7 +287,7 @@
         term = "foot";
         font = "monospace:size=7, Noto Color Emoji:size=7";
         dpi-aware = "yes";
-        monitor-scale = "eDP-1:1, Goldstar:1.8, QROM8HA000914:1.5";
+        monitor-scale = "eDP-1:1, Goldstar:1.5, G2460:1.6, QROM8HA000914:1.5";
       };
       mouse.hide-when-typing = "yes";
       scrollback.lines = 4096;
@@ -371,7 +371,7 @@
       main = {
         layer = "bottom";
         position = "bottom";
-        height = 30;
+        height = 25;
 
         modules-left = [ "river/tags" ];
         modules-right = [ "tray" "network" "battery" "cpu" "memory" "pulseaudio" "clock" ];
@@ -483,7 +483,7 @@
           }
         ];
       };
-      home = {
+      homeLora = {
         outputs = [
           {
             criteria = "eDP-1";
@@ -499,8 +499,26 @@
           }
         ];
       };
+      homePython = {
+        outputs = [
+          {
+            criteria = "DP-1";
+            status = "enable";
+            mode = "2560x1440@144Hz";
+            position = "0,0";
+          }
+          {
+            criteria = "DP-2";
+            status = "enable";
+            mode = "1920x1080@144Hz";
+            position = "2560,200";
+          }
+        ];
+      };
     };
   };
+
+  programs.nix-index.enable = true;
 
   services.gpg-agent = rec {
     enable = true;
