@@ -1,7 +1,7 @@
 { inputs, lib, config, pkgs, ... }: {
   imports = [
-    ../../modules/home-manager/river.nix
-    ../../modules/home-manager/swaybg.nix
+    ../modules/home-manager/river.nix
+    ../modules/home-manager/swaybg.nix
   ];
 
   home.username = "robin";
@@ -17,6 +17,7 @@
     _JAVA_AWT_WM_NONREPARENTING = 1;
     GDK_BACKEND = "wayland";
     EDITOR = "${pkgs.kakoune}/bin/kak";
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
   };
 
   home.packages = with pkgs; [
@@ -57,7 +58,6 @@
     roboto
     slurp
     tdesktop
-    thunderbird
     unzip
     usbutils
     visidata
@@ -75,7 +75,7 @@
   # Kakoune config files
   # The kakoune module is a bit too invasive, so just copy all the files in
   # assets/kak/ to the $XDG_CONFIG_HOME/kak/ manually.
-  xdg.configFile."kak".source = ../../assets/kak;
+  xdg.configFile."kak".source = ../assets/kak;
 
   programs.home-manager.enable = true;
 
@@ -201,14 +201,13 @@
     package = pkgs.gitFull;
 
     userName = "Robin Voetter";
-    userEmail = "robin@streamhpc.com";
 
     signing = {
       key = null;
       signByDefault = true;
     };
 
-    ignores = [ ".private" ".cache" ];
+    ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ];
 
     extraConfig = {
       core.autocrlf = false;
@@ -427,12 +426,11 @@
         };
       };
     };
-    style = ../../assets/waybar-style.css;
+    style = ../assets/waybar-style.css;
   };
 
   programs.swaybg = {
     enable = true;
-    image = ../../assets/backgrounds/oxybelis.jpg;
     mode = "fill";
     systemdTarget = "river-session.target";
   };
@@ -444,6 +442,7 @@
 
   programs.thunderbird = {
     enable = true;
+    package = pkgs.thunderbird-bin;
     profiles.robin = {
       isDefault = true;
       withExternalGnupg = true;
@@ -456,66 +455,6 @@
   services.kanshi = {
     enable = true;
     systemdTarget = "river-session.target";
-    profiles = {
-      undocked = {
-        outputs = [
-          {
-            criteria = "eDP-1";
-            status = "enable";
-            mode = "2560x1440@60Hz";
-            position = "0,0";
-          }
-        ];
-      };
-      amsterdamOffice = {
-        outputs = [
-          {
-            criteria = "eDP-1";
-            status = "enable";
-            mode = "2560x1440@60Hz";
-            position = "440,1440";
-          }
-          {
-            criteria = "Unknown U34P2G1 QROM8HA000914";
-            status = "enable";
-            mode = "3440x1440@60Hz";
-            position = "0,0";
-          }
-        ];
-      };
-      homeLora = {
-        outputs = [
-          {
-            criteria = "eDP-1";
-            status = "enable";
-            mode = "2560x1440@60Hz";
-            position = "0,1440";
-          }
-          {
-            criteria = "Goldstar Company Ltd 27GL850 011NTABE4544";
-            status = "enable";
-            mode = "2560x1440@60Hz";
-            position = "0,0";
-          }
-        ];
-      };
-      homePython = {
-        outputs = [
-          {
-            criteria = "DP-1";
-            status = "enable";
-            mode = "2560x1440@144Hz";
-            position = "0,0";
-          }
-          {
-            criteria = "DP-2";
-            status = "enable";
-            mode = "1920x1080@144Hz";
-            position = "2560,200";
-          }
-        ];
-      };
-    };
   };
 
   programs.nix-index.enable = true;
@@ -528,9 +467,6 @@
     maxCacheTtlSsh = maxCacheTtl;
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
-    sshKeys = [
-      "20084BBCAE601968F2A7C4B52350830A48C015BD"
-    ];
   };
 
   gtk = {

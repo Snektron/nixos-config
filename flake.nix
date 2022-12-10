@@ -11,7 +11,7 @@
 
   outputs = inputs:
   let
-    nixpkgs-config = {
+    nixpkgsConfig = {
       overlays = [
         inputs.self.overlays.default
       ];
@@ -25,15 +25,33 @@
   in {
     overlays.default = import ./overlays;
 
-    nixosConfigurations.lora = import ./hosts/lora {
-      inherit inputs nixpkgs-config;
-    };
-    nixosConfigurations.python = import ./hosts/python {
-      inherit inputs nixpkgs-config;
+    nixosConfigurations = {
+      lora = import ./hosts/lora {
+        inherit inputs nixpkgsConfig;
+      };
+      python = import ./hosts/python {
+        inherit inputs nixpkgsConfig;
+      };
     };
 
-    homeConfigurations.robin = import ./users/robin {
-      inherit inputs nixpkgs-config;
+    homeConfigurations = let
+      mkUser = { system, userModule }: inputs.home-manager.lib.homeManagerConfiguration {
+        modules = [
+          { nixpkgs = nixpkgsConfig; }
+          userModule
+        ];
+        pkgs = inputs.nixpkgs.outputs.legacyPackages.${system};
+        extraSpecialArgs = { inherit inputs; };
+      };
+    in {
+      lora = mkUser {
+        system = "x86_64-linux";
+        userModule = ./user/lora.nix;
+      };
+      python = mkUser {
+        system = "x86_64-linux";
+        userModule = ./user/python.nix;
+      };
     };
 
     packages =
@@ -41,7 +59,7 @@
       system = "x86_64-linux";
     in {
       ${system} = import ./packages {
-        inherit system inputs nixpkgs-config;
+        inherit system inputs nixpkgsConfig;
       };
     };
   };

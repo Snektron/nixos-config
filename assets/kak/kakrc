@@ -143,6 +143,7 @@ source "%val{config}/rc/foot.kak"
 source "%val{config}/rc/sudo-write.kak"
 source "%val{config}/rc/wiki.kak"
 source "%val{config}/rc/z80.kak"
+source "%val{config}/rc/j.kak"
 
 clipb-detect
 clipb-enable

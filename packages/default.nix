@@ -1,6 +1,6 @@
-{ inputs, system, nixpkgs-config }:
+{ inputs, system, nixpkgsConfig }:
 let
-  pkgs = import inputs.nixpkgs ({ inherit system; } // nixpkgs-config );
+  pkgs = import inputs.nixpkgs ({ inherit system; } // nixpkgsConfig );
 in {
   breeze-obsidian-cursor-theme = pkgs.callPackage ../packages/breeze-obsidian-cursor-theme.nix { };
 }
