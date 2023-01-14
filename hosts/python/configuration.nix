@@ -25,7 +25,22 @@
   };
 
   ## Filesystem configuration
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
+  fileSystems = {
+    "/".options = [ "noatime" "nodiratime" "discard" ];
+    # This stupid SSD never works properly
+    # "/media/windows" = {
+    #   device = "/dev/disk/by-partuuid/02894a88-8159-496a-a7c0-1de93ea44237";
+    #   fsType = "ntfs";
+    # };
+    "/media/windows-extra" = {
+      device = "/dev/disk/by-partuuid/c5a88c6c-a473-4b5e-a64d-fd603d1c1ee4";
+      fsType = "ntfs";
+    };
+    "/media/void-old" = {
+      device = "/dev/disk/by-partuuid/ea6fe8cb-db40-4966-b2a2-0d495c42bc74";
+      fsType = "ext4";
+    };
+  };
 
   ## Networking
   networking.hostName = "python";
@@ -103,6 +118,10 @@
     enable = true;
     remotePlay.openFirewall = true;
   };
+
+  programs.gamemode.enable = true;
+
+  virtualisation.docker.enable = true;
 
   ## Misc
   time.timeZone = "Europe/Amsterdam";
