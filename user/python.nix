@@ -6,6 +6,7 @@
   home.packages = with pkgs; [
     teamspeak_client
     ghidra
+    rpcs3
   ];
 
   programs.swaybg.image = ../assets/backgrounds/mountains.jpg;

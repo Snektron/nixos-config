@@ -49,6 +49,7 @@
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
+    obsidian
     obs-studio
     pavucontrol
     python3
