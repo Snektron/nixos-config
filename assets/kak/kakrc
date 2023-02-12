@@ -97,7 +97,7 @@ set-face global CurWord default+b
 
 hook global NormalIdle .* %{
     eval -draft %{ try %{
-        exec <space><a-i>w <a-k>\A\w+\z<ret>
+        exec ,<a-i>w <a-k>\A\w+\z<ret>
         add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
     } catch %{
         add-highlighter -override global/curword group
@@ -116,17 +116,7 @@ hook global ModeChange .*:insert:.* %{ try %{
     unset-face window PrimaryCursorEol
 } }
 
-declare-option str cursor_line_len -hidden
-hook global WinCreate .* %{
-    hook window NormalIdle .* %{
-        eval -save-regs 'm' %{
-            exec -draft '<space>;<a-x>:reg m %reg{.}<ret>'
-            set window cursor_line_len %sh{printf "%s" "$kak_reg_m" | wc -m}
-        }
-    }
-}
-
-set-option global modelinefmt '%val{bufname} %val{cursor_line}/%val{buf_line_count}:%val{cursor_char_column}/%opt{cursor_line_len} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
+set-option global modelinefmt '%val{bufname} %val{cursor_line}/%val{buf_line_count} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
 
 # --- Plugins ---
 
@@ -231,10 +221,6 @@ map global normal <a-backspace> <a-space> -docstring 'Remove main selection'
 
 map global user <space> <space> -docstring 'Remove all except main selection'
 map global user <a-space> <a-space> -docstring 'Remove main selection'
-
-# Change x and a-x
-map global normal x <a-x>
-map global normal <a-x> x
 
 # LSP mode
 map global user l %{:enter-user-mode lsp<ret>} -docstring 'Enter LSP mode'
