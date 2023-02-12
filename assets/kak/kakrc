@@ -200,7 +200,6 @@ map global normal <c-p> ':rofi-files<ret>'
 map global normal <c-b> ':rofi-buffers<ret>'
 
 map global normal '#' ':comment-line<ret>'
-map global normal Q ':db<ret>'
 
 map global insert <s-backspace> <backspace>
 map global prompt <s-backspace> <backspace>
