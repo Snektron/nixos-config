@@ -36,10 +36,6 @@
       device = "/dev/disk/by-partuuid/c5a88c6c-a473-4b5e-a64d-fd603d1c1ee4";
       fsType = "ntfs";
     };
-    "/media/void-old" = {
-      device = "/dev/disk/by-partuuid/ea6fe8cb-db40-4966-b2a2-0d495c42bc74";
-      fsType = "ext4";
-    };
   };
 
   ## Networking
