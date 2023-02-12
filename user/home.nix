@@ -53,7 +53,6 @@
     obs-studio
     pavucontrol
     python3
-    remmina
     ripgrep
     river
     roboto
@@ -243,7 +242,7 @@
     '';
     shellAbbrs = {
       gs = "git status";
-      gl = "git log --oneline";
+      gl = "git log --oneline --graph";
       ga = "git add";
       gd = "git diff";
       gdc = "git diff --cached";
@@ -287,7 +286,6 @@
         term = "foot";
         font = "monospace:size=7, Noto Color Emoji:size=7";
         dpi-aware = "yes";
-        monitor-scale = "eDP-1:1, 27GL850:1.5, G2460:1.6, QROM8HA000914:1.5";
       };
       mouse.hide-when-typing = "yes";
       scrollback.lines = 4096;
