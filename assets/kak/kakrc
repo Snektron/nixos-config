@@ -90,7 +90,7 @@ add-highlighter global/ show-matching
 add-highlighter global/ line '%val{cursor_line}' default,rgb:383838
 
 set-option global ui_options terminal_assistant=none
-set-option global startup_info_version 20220704
+set-option global startup_info_version 20230212
 set-option global scrolloff 1,3
 
 set-face global CurWord default+b
