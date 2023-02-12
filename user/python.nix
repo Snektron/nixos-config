@@ -7,6 +7,7 @@
     teamspeak_client
     ghidra
     rpcs3
+    prismlauncher
   ];
 
   programs.swaybg.image = ../assets/backgrounds/mountains.jpg;
