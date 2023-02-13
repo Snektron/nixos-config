@@ -14,7 +14,7 @@
 
   programs.git.userEmail = "robin@streamhpc.com";
 
-  programs.foot.settings.main.monitor-scale = "eDP-1:1, Goldstar:1.7, G2460:1.6, QROM8HA000914:1.5";
+  programs.foot.settings.main.monitor-scale = "eDP-1:1, 27GL850:1.7, G2460:1.6, QROM8HA000914:1.5";
 
   services.gpg-agent.sshKeys = [ "20084BBCAE601968F2A7C4B52350830A48C015BD" ];
 
