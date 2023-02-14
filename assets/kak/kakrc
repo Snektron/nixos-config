@@ -214,13 +214,9 @@ map global normal <s-right> ''
 map global normal <s-up> ''
 map global normal <s-down> ''
 
-# Change user mode key to space
-map global normal <space> , -docstring 'leader'
-map global normal <backspace> <space> -docstring 'Remove all except main selection'
-map global normal <a-backspace> <a-space> -docstring 'Remove main selection'
-
-map global user <space> <space> -docstring 'Remove all except main selection'
-map global user <a-space> <a-space> -docstring 'Remove main selection'
+# use backspace for kill
+map global normal <backspace> <,> -docstring 'Remove all except main selection'
+map global normal <a-backspace> <a-,> -docstring 'Remove main selection'
 
 # LSP mode
 map global user l %{:enter-user-mode lsp<ret>} -docstring 'Enter LSP mode'
