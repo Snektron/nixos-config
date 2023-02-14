@@ -131,7 +131,7 @@
   users.users.robin = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "networkmanager" "video" "render" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "render" "docker" "dialout" ];
   };
 
   ## System
