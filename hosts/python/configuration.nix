@@ -54,6 +54,8 @@
 
   programs.xwayland.enable = true;
 
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
   services.greetd = {
     enable = true;
     restart = false;
