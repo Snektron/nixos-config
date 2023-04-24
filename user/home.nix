@@ -224,6 +224,10 @@
       "github.com" = {
         user = "git";
       };
+      "cobra" = {
+        user = "robin";
+        hostname = "pythons.space";
+      };
     };
     # Remote servers cannot deal with TERM=foot
     extraConfig = ''
@@ -354,7 +358,7 @@
     };
   };
 
-  programs.mako = {
+  services.mako = {
     enable = true;
     defaultTimeout = 3000;
   };

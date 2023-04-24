@@ -15,7 +15,7 @@
   };
 
   boot = {
-    cleanTmpDir = true;
+    tmp.cleanOnBoot = true;
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "v4l2loopback" ];
     extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
@@ -41,6 +41,16 @@
   ## Networking
   networking.hostName = "python";
   networking.networkmanager.enable = true;
+  networking.extraHosts = ''
+    0.0.0.0 redshell.io
+    0.0.0.0 api.redshell.io
+    0.0.0.0 treasuredata.com
+    0.0.0.0 api.treasuredata.com
+    0.0.0.0 in.treasuredata.com
+    0.0.0.0 cdn.rdshll.com
+    0.0.0.0 t.redshell.io
+    0.0.0.0 innervate.us
+  '';
 
   ## Input
   services.xserver.xkbOptions = "caps:hyper,compose:rctrl";
@@ -98,8 +108,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    wireplumber.enable = false;
-    media-session.enable = true;
   };
 
   hardware.bluetooth.enable = true;
