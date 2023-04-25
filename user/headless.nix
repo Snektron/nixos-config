@@ -1,4 +1,7 @@
-{ inputs, lib, config, pkgs, ... }: {
+{ inputs, lib, config, pkgs, ... }:
+let
+  hasGpgKeys = config.services.gpg-agent.sshKeys != [];
+in {
   home.username = "robin";
   home.homeDirectory = "/home/robin";
   home.stateVersion = "22.11";
@@ -7,6 +10,7 @@
     EDITOR = "${pkgs.kakoune}/bin/kak";
   };
 
+  # TODO: Trim these packages so that we dont get the X libraries for random bullshit
   home.packages = with pkgs; [
     acpi
     (aspellWithDicts (dicts: [dicts.en dicts.en-computers dicts.en-science]))
@@ -52,7 +56,7 @@
 
     signing = {
       key = null;
-      signByDefault = lib.mkDefault (config.services.gpg-agent.sshKeys != []);
+      signByDefault = hasGpgKeys;
     };
 
     ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ];
@@ -85,7 +89,7 @@
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
       set fish_greeting
       fish_vi_key_bindings
-      ${pkgs.gnupg}/bin/gpg-connect-agent updatestartuptty /bye > /dev/null
+      ${lib.optionalString hasGpgKeys "${pkgs.gnupg}/bin/gpg-connect-agent updatestartuptty /bye > /dev/null"}
     '';
     shellAbbrs = {
       gs = "git status";
