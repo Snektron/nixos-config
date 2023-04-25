@@ -53,6 +53,10 @@
         system = "x86_64-linux";
         userModule = ./user/python.nix;
       };
+      headless = mkUser {
+        system = "x86_64-linux";
+        userModule = ./user/headless.nix;
+      };
     };
 
     packages =
