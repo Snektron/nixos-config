@@ -1,6 +1,4 @@
 self: super: {
-  mesa = super.mesa_23;
-
   # Patch foot with an option that allows per-monitor scaling, so that
   # DPI and stuff isn't so horrible.
   foot = super.foot.overrideAttrs (old: {
