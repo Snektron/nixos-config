@@ -179,7 +179,7 @@
         dpi-aware = "yes";
       };
       mouse.hide-when-typing = "yes";
-      scrollback.lines = 4096;
+      scrollback.lines = 65536;
       colors = {
         background = "181818";
         foreground = "dddddd";
@@ -243,11 +243,6 @@
       separator-style = "dash";
       color-enabled = true;
     };
-  };
-
-  services.mako = {
-    enable = true;
-    defaultTimeout = 3000;
   };
 
   programs.waybar = {
@@ -335,6 +330,11 @@
     settings = {
       "privacy.donottrackheader.enabled" = true;
     };
+  };
+
+  services.mako = {
+    enable = true;
+    defaultTimeout = 3000;
   };
 
   services.kanshi = {

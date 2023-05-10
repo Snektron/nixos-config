@@ -74,6 +74,21 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs_2205": "nixpkgs_2205"
       }
+    },
+    "utils": {
+      "locked": {
+        "lastModified": 1676283394,
+        "narHash": "sha256-XX2f9c3iySLCw54rJ/CZs+ZK6IQy7GXNY4nSOyu2QG4=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3db36a8b464d0c4532ba1c7dda728f4576d6d073",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
     }
   },
   "root": "root",

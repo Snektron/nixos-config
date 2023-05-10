@@ -10,6 +10,21 @@
     pkgs.virt-manager
   ];
 
+  accounts.email = {
+    accounts.streamhpc = {
+      address = "robin@streamhpc.com";
+      gpg = {
+        key = null;
+        signByDefault = true;
+      };
+
+      smtp.tls.useStartTls = true;
+
+      primary = true;
+      flavor = "gmail.com";
+    };
+  };
+
   programs.swaybg.image = ../assets/backgrounds/oxybelis.jpg;
 
   programs.git.userEmail = "robin@streamhpc.com";

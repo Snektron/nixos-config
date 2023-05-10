@@ -97,8 +97,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    wireplumber.enable = false;
-    media-session.enable = true;
   };
 
   hardware.bluetooth.enable = true;
