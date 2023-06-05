@@ -125,6 +125,9 @@
 
   virtualisation.docker.enable = true;
 
+  services.yubikey-agent.enable = true;
+  programs.gnupg.agent.pinentryFlavor = "gtk2";
+
   ## Misc
   time.timeZone = "Europe/Amsterdam";
   i18n.defaultLocale = "en_US.UTF-8";

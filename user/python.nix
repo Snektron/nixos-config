@@ -10,16 +10,11 @@
     prismlauncher
   ];
 
-  programs.git.signing.signByDefault = true;
+  # programs.git.signing.signByDefault = true;
 
   programs.foot.settings.main.monitor-scale = "27GL850:1.5, G2460:1.6";
 
   programs.swaybg.image = ../assets/backgrounds/mountains.jpg;
-
-  services.gpg-agent = {
-    enable = true;
-    sshKeys = [ "AA96C22B91130CBFFF30644E1F57012C3A0388F4" ];
-  };
 
   services.kanshi.profiles.home = {
     outputs = [

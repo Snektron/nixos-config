@@ -4,17 +4,13 @@
   ];
 
   ## Boot
-  boot.loader = {
-    grub = {
-      enable = true;
-      version = 2;
-      device = "nodev";
-      efiSupport = true;
-    };
-    efi.canTouchEfiVariables = true;
-  };
-
   boot = {
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 8;
+      efi.canTouchEfiVariables = true;
+    };
+
     tmp.cleanOnBoot = true;
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "v4l2loopback" ];
@@ -126,6 +122,9 @@
   };
 
   virtualisation.docker.enable = true;
+
+  services.yubikey-agent.enable = true;
+  programs.gnupg.agent.pinentryFlavor = "gtk2";
 
   ## Misc
   time.timeZone = "Europe/Amsterdam";

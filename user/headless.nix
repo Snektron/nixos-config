@@ -1,7 +1,4 @@
-{ inputs, lib, config, pkgs, ... }:
-let
-  hasGpgKeys = config.services.gpg-agent.sshKeys != [];
-in {
+{ inputs, lib, config, pkgs, ... }: {
   home.username = "robin";
   home.homeDirectory = "/home/robin";
   home.stateVersion = "22.11";
@@ -54,17 +51,18 @@ in {
     userName = "Robin Voetter";
     userEmail = lib.mkDefault "robin@voetter.nl";
 
-    signing = {
-      key = null;
-      signByDefault = hasGpgKeys;
-    };
-
     ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ];
 
     extraConfig = {
       core.autocrlf = false;
       pull.rebase = true;
       color.ui = true;
+
+      gpg.format = "ssh";
+      # Note: also enables SSH signing.
+      # Should this be optional?
+      commit.gpgSign = true;
+      user.signingKey = "${../keys/yubikey}";
     };
   };
 
@@ -89,7 +87,6 @@ in {
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
       set fish_greeting
       fish_vi_key_bindings
-      ${lib.optionalString hasGpgKeys "${pkgs.gnupg}/bin/gpg-connect-agent updatestartuptty /bye > /dev/null"}
     '';
     shellAbbrs = {
       gs = "git status";
