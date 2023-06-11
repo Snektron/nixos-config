@@ -23,6 +23,7 @@
     libqalculate
     libtree
     lm_sensors
+    nix-output-monitor
     moreutils
     mutagen
     python3
