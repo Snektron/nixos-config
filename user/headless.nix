@@ -80,16 +80,22 @@
 
   programs.ssh = {
     enable = true;
-    forwardAgent = true;
-    matchBlocks = {
-      "github.com" = {
-        user = "git";
+    controlMaster = "auto";
+    controlPersist = "60m";
+    matchBlocks = let
+      trustedHosts = {
+        # VPS
+        "pythons.space" = {};
+        # Desktop
+        "python".hostname = "192.168.178.100";
       };
-      "pythons.space" = {
-        user = "robin";
-        hostname = "pythons.space";
+      # git hosts. User is set to "git".
+      gitHosts = {
+        "github.com" = {};
       };
-    };
+      setDefaults = defaults: hosts: builtins.mapAttrs (name: value: value // defaults) hosts;
+    in (setDefaults { user = "robin"; forwardAgent = true; } trustedHosts)
+    // (setDefaults { user = "git"; } gitHosts);
   };
 
   programs.fish = {
