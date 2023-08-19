@@ -3,10 +3,8 @@
     ./graphical.nix
   ];
 
-  home.packages = let
-    pkgs_2205 = inputs.nixpkgs_2205.outputs.legacyPackages.x86_64-linux;
-  in [
-    pkgs_2205.remmina
+  home.packages = [
+    pkgs.remmina
     pkgs.virt-manager
   ];
 
