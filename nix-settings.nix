@@ -6,5 +6,6 @@
 
   settings = {
     auto-optimise-store = true;
+    trusted-users = [ "robin" ];
   };
 }

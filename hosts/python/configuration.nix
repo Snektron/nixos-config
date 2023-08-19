@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }: {
+{ inputs, lib, config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -13,10 +13,14 @@
 
     tmp.cleanOnBoot = true;
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "v4l2loopback" ];
+    # Something is adding amdgpu here, and by default its listed before vfio. This causes
+    # vfio to fail to bind to the GPU: using mkBefore makes sure that it is loaded before the
+    # amdgpu driver.
+    initrd.kernelModules = lib.mkBefore [ "vfio" "vfio_pci" "vfio_iommu_type1" ];
     extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
     extraModprobeConfig = ''
       options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
+      options vfio-pci ids=1002:67df,1002:aaf0
     '';
   };
 
@@ -53,6 +57,15 @@
   console.useXkbConfig = true;
 
   ## Video
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
+  '';
+
+  security.pam.loginLimits = [
+    { domain = "*"; item = "memlock"; type = "soft"; value = "unlimited"; }
+    { domain = "*"; item = "memlock"; type = "hard"; value = "unlimited"; }
+  ];
+
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -136,11 +149,16 @@
     SystemMaxUse=100M
   '';
 
+  services.openssh = {
+    enable = true;
+    settings.PermitRootLogin = "no";
+  };
+
   ## Users
   users.users.robin = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "networkmanager" "video" "render" "docker" "dialout" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "render" "docker" "dialout" "kvm" ];
   };
 
   ## System

@@ -26,7 +26,7 @@
     nix-output-monitor
     moreutils
     mutagen
-    python3
+    (python3.withPackages (ps: with ps; [ numpy ]))
     ripgrep
     unzip
     usbutils
