@@ -42,6 +42,17 @@
   # TODO: Make it not use rofi in headless mode
   xdg.configFile."kak".source = ../assets/kak;
 
+  xdg.configFile."kak-lsp/kak-lsp.toml".text = ''
+    [server]
+    timeout = 1800
+
+    [language.c_cpp]
+    filetypes = ["c", "cpp"]
+    roots = [".git", ".clangd", ".ccls"]
+    command = "ccls" # We explicitly dont hardcode a path so that project-specific flakes can override the ccls
+    args = ["--init={\"completion\":{\"detailedLabel\":false}}"]
+  '';
+
   programs.home-manager.enable = true;
 
   programs.git = {
