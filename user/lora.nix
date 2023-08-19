@@ -13,11 +13,6 @@
   accounts.email = {
     accounts.streamhpc = {
       address = "robin@streamhpc.com";
-      gpg = {
-        key = null;
-        signByDefault = true;
-      };
-
       smtp.tls.useStartTls = true;
 
       primary = true;

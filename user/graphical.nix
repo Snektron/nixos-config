@@ -325,7 +325,6 @@
     package = pkgs.thunderbird-bin;
     profiles.robin = {
       isDefault = true;
-      withExternalGnupg = true;
     };
     settings = {
       "privacy.donottrackheader.enabled" = true;
