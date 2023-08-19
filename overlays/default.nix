@@ -9,12 +9,12 @@ self: super: {
 
   # Override kakoune to a more recent version so that shift+space works
   kakoune-unwrapped = super.kakoune-unwrapped.overrideAttrs (old: {
-    version = "2023.02.12";
+    version = "2023.08.08";
     src = super.fetchFromGitHub {
         owner = "mawww";
         repo = "kakoune";
-        rev = "3150e9b3cd8e61d9bc68245d67822614d4376cf4";
-        sha256 = "sha256-YuoSUk2vjw/waGNRbSdqrCMBiUJWDMCa3iBsFjZCXtM=";
+        rev = "e605ad8582d8e015806ed9b4d7aba8ca1ea13d57";
+        sha256 = "sha256-RR3kw39vEjsg+6cIY6cK2i3ecGHlr1yzuBKaDtGlOGo=";
     };
   });
 
