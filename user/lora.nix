@@ -84,4 +84,6 @@
       ];
     };
   };
+
+  services.syncthing.enable = true;
 }
