@@ -22,7 +22,14 @@ self: super: {
   # use pkgs.nvidia_x11 directly rather than this option. This makes sure that we catch
   # everything.
   linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: {
-    nvidiaPackages.stable = supernv.nvidiaPackages.latest;
+    nvidiaPackages.stable = supernv.nvidiaPackages.production.overrideAttrs (old: rec {
+      version = "535.104.05";
+      name = "nvidia-x11-${version}";
+      src = self.fetchurl {
+        url = "https://us.download.nvidia.com/XFree86/Linux-x86_64/535.104.05/NVIDIA-Linux-x86_64-535.104.05.run";
+        hash = "sha256-L51gnR2ncL7udXY2Y1xG5+2CU63oh7h8elSC4z/L7ck=";
+      };
+    });
     nvidia_x11 = selfnv.nvidiaPackages.stable;
   });
 
