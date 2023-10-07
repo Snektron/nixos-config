@@ -49,7 +49,7 @@ hook global WinSetOption filetype=(c|cpp) %{
 hook global WinSetOption filetype=zig %{
     # Override some zig symbols to the proper type
     add-highlighter -override shared/zig/code/ regex '\b(?:true|false|null|undefined)\b' 0:builtin
-    add-highlighter shared/zig/code/ regex '\b(?:anyopaque)\b' 0:type
+    add-highlighter shared/zig/code/ regex '\b(?:anyopaque|addrspace)\b' 0:type
 }
 
 hook global WinSetOption filetype=latex %{
@@ -139,6 +139,7 @@ source "%val{config}/rc/sudo-write.kak"
 source "%val{config}/rc/wiki.kak"
 source "%val{config}/rc/z80.kak"
 source "%val{config}/rc/j.kak"
+source "%val{config}/rc/spirv.kak"
 
 clipb-detect
 clipb-enable
