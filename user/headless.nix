@@ -26,6 +26,7 @@
     nix-output-monitor
     moreutils
     mutagen
+    pdfpc
     (python3.withPackages (ps: with ps; [ numpy ]))
     ripgrep
     unzip

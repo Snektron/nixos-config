@@ -6,6 +6,7 @@
   home.packages = [
     pkgs.remmina
     pkgs.virt-manager
+    pkgs.libreoffice
   ];
 
   accounts.email = {

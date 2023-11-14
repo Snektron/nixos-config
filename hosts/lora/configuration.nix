@@ -24,8 +24,16 @@
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
   ## Networking
-  networking.hostName = "lora";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "lora";
+    networkmanager.enable = true;
+    nameservers = [ "1.1.1.1" ];
+  };
+
+  services.resolved = {
+    enable = true;
+    domains = [ "~." ];
+  };
 
   ## Input
   services.xserver.xkbOptions = "caps:hyper,compose:rctrl";
@@ -37,6 +45,7 @@
     prime.sync.enable = true;
     prime.offload.enable = false;
     powerManagement.enable = true;
+    nvidiaSettings = false;
   };
 
   hardware.opengl = {
@@ -133,6 +142,17 @@
   services.journald.extraConfig = ''
     SystemMaxUse=100M
   '';
+
+  system.activationScripts.diff = {
+    supportsDryActivation = true;
+    text = ''
+      if [[ -e /run/current-system ]]; then
+        echo "--- diff to current-system"
+        ${pkgs.nvd}/bin/nvd --nix-bin-dir=${config.nix.package}/bin diff /run/current-system "$systemConfig"
+        echo "---"
+      fi
+    '';
+  };
 
   ## Users
   users.users.robin = {
