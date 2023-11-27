@@ -38,6 +38,7 @@
     wl-clipboard
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy
+    transmission-qt
   ];
 
   fonts.fontconfig.enable = true;

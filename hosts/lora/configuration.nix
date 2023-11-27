@@ -143,17 +143,6 @@
     SystemMaxUse=100M
   '';
 
-  system.activationScripts.diff = {
-    supportsDryActivation = true;
-    text = ''
-      if [[ -e /run/current-system ]]; then
-        echo "--- diff to current-system"
-        ${pkgs.nvd}/bin/nvd --nix-bin-dir=${config.nix.package}/bin diff /run/current-system "$systemConfig"
-        echo "---"
-      fi
-    '';
-  };
-
   ## Users
   users.users.robin = {
     isNormalUser = true;
@@ -163,4 +152,15 @@
 
   ## System
   system.stateVersion = "22.11";
+
+  system.activationScripts.diff = {
+    # Run this script also when running --dry-activate
+    supportsDryActivation = true;
+    text = ''
+      if [[ -e /run/current-system ]]; then
+        echo "--- Summary of changes"
+        ${pkgs.nvd}/bin/nvd --nix-bin-dir=${config.nix.package}/bin diff /run/current-system "$systemConfig"
+      fi
+    '';
+  };
 }

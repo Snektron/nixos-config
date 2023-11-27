@@ -22,6 +22,8 @@
       options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
       options vfio-pci ids=1002:67df,1002:aaf0
     '';
+
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   ## Filesystem configuration
@@ -149,11 +151,6 @@
     SystemMaxUse=100M
   '';
 
-  services.openssh = {
-    enable = true;
-    settings.PermitRootLogin = "no";
-  };
-
   system.activationScripts.diff = {
     supportsDryActivation = true;
     text = ''
@@ -174,4 +171,15 @@
 
   ## System
   system.stateVersion = "22.11";
+
+  system.activationScripts.diff = {
+    # Run this script also when running --dry-activate
+    supportsDryActivation = true;
+    text = ''
+      if [[ -e /run/current-system ]]; then
+        echo "--- Summary of changes"
+        ${pkgs.nvd}/bin/nvd --nix-bin-dir=${config.nix.package}/bin diff /run/current-system "$systemConfig"
+      fi
+    '';
+  };
 }
