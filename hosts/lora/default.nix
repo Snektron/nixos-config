@@ -1,21 +1,47 @@
-{ inputs, nixpkgsConfig }:
-inputs.nixpkgs.lib.nixosSystem rec {
-  system = "x86_64-linux";
-
-  modules = [
+{ inputs, config, pkgs, ... }: {
+  imports = [
     inputs.nixos-hardware.nixosModules.asus-zephyrus-ga401
-    {
-      nixpkgs = { inherit system; } // nixpkgsConfig;
-      nix = import ../../nix-settings.nix { inherit inputs system; };
-    }
-    # Use the pinned inputs as channels in the final configuration.
-    (import ../../utils/link-inputs.nix inputs)
-    ./configuration.nix
-    inputs.home-manager.nixosModules.home-manager {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-    }
+    ./hardware-configuration.nix
+    ../common/boot.nix
+    ../common/network.nix
+    ../common/desktop.nix
+    ../common/stdenv.nix
+    ../common/users.nix
+    ../common/system.nix
+    ../common/nix-config.nix
   ];
 
-  specialArgs = { inherit inputs; };
+  networking.hostName = "lora";
+
+  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    prime.sync.enable = true;
+    prime.offload.enable = false;
+    powerManagement.enable = true;
+    nvidiaSettings = false;
+  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+  };
+
+  services.logind = {
+    lidSwitch = "ignore";
+    lidSwitchDocked = "ignore";
+  };
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 80;
+    };
+  };
+
+  system.stateVersion = "22.11";
 }

@@ -9,53 +9,37 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs:
-  let
-    nixpkgsConfig = {
-      overlays = [
-        inputs.self.overlays.default
-      ];
-
-      config = {
-        allowUnfree = true;
-        # https://github.com/nix-community/home-manager/issues/2942#issuecomment-1119760100
-        allowUnfreePredicate = (pkg: true);
-        permittedInsecurePackages = [
-          "electron-24.8.6"
-        ];
-      };
-    };
-  in {
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs: {
     overlays.default = import ./overlays;
 
-    nixosConfigurations = {
-      lora = import ./hosts/lora {
-        inherit inputs nixpkgsConfig;
+    nixosConfigurations = let
+      mkSystem = module: nixpkgs.lib.nixosSystem {
+         modules = [ module ];
+         specialArgs = { inherit inputs; };
       };
-      python = import ./hosts/python {
-        inherit inputs nixpkgsConfig;
-      };
+    in {
+      lora = mkSystem ./hosts/lora;
+      python = mkSystem ./hosts/python;
     };
 
     homeConfigurations = let
-      mkUser = { system, userModule }: inputs.home-manager.lib.homeManagerConfiguration {
+      mkHome = { system, userModule }: home-manager.lib.homeManagerConfiguration {
         modules = [
-          { nixpkgs = nixpkgsConfig; }
           userModule
         ];
-        pkgs = inputs.nixpkgs.outputs.legacyPackages.${system};
+        pkgs = nixpkgs.outputs.legacyPackages.${system};
         extraSpecialArgs = { inherit inputs; };
       };
     in {
-      lora = mkUser {
+      lora = mkHome {
         system = "x86_64-linux";
         userModule = ./user/lora.nix;
       };
-      python = mkUser {
+      python = mkHome {
         system = "x86_64-linux";
         userModule = ./user/python.nix;
       };
-      headless = mkUser {
+      headless = mkHome {
         system = "x86_64-linux";
         userModule = ./user/headless.nix;
       };
@@ -66,7 +50,7 @@
       system = "x86_64-linux";
     in {
       ${system} = import ./packages {
-        inherit system inputs nixpkgsConfig;
+        pkgs = nixpkgs.outputs.legacyPackages.${system};
       };
     };
   };

@@ -1,21 +1,59 @@
-{ inputs, nixpkgsConfig }:
-inputs.nixpkgs.lib.nixosSystem rec {
-  system = "x86_64-linux";
-
-  modules = [
-    inputs.nixos-hardware.nixosModules.asus-zephyrus-ga401
-    {
-      nixpkgs = { inherit system; } // nixpkgsConfig;
-      nix = import ../../nix-settings.nix { inherit inputs system; };
-    }
-    # Use the pinned inputs as channels in the final configuration.
-    (import ../../utils/link-inputs.nix inputs)
-    ./configuration.nix
-    inputs.home-manager.nixosModules.home-manager {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-    }
+{ inputs, lib, config, pkgs, ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ../common/boot.nix
+    ../common/network.nix
+    ../common/desktop.nix
+    ../common/stdenv.nix
+    ../common/users.nix
+    ../common/system.nix
+    ../common/nix-config.nix
   ];
 
-  specialArgs = { inherit inputs; };
+  networking.hostName = "python";
+
+  boot = {
+    # Something is adding amdgpu here, and by default its listed before vfio. This causes
+    # vfio to fail to bind to the GPU: using mkBefore makes sure that it is loaded before the
+    # amdgpu driver.
+    initrd.kernelModules = lib.mkBefore [ "vfio" "vfio_pci" "vfio_iommu_type1" ];
+    # Bind the RX580 to vfio-pci
+    extraModprobeConfig = ''
+      options vfio-pci ids=1002:67df,1002:aaf0
+    '';
+  };
+
+  ## Filesystem configuration
+  fileSystems = {
+    "/".options = [ "noatime" "nodiratime" "discard" ];
+    # This stupid SSD never works properly
+    # "/media/windows" = {
+    #   device = "/dev/disk/by-partuuid/02894a88-8159-496a-a7c0-1de93ea44237";
+    #   fsType = "ntfs";
+    # };
+    "/media/windows-extra" = {
+      device = "/dev/disk/by-partuuid/c5a88c6c-a473-4b5e-a64d-fd603d1c1ee4";
+      fsType = "ntfs";
+    };
+  };
+
+  ## Video
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
+  '';
+
+  security.pam.loginLimits = [
+    { domain = "*"; item = "memlock"; type = "soft"; value = "unlimited"; }
+    { domain = "*"; item = "memlock"; type = "hard"; value = "unlimited"; }
+  ];
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+  };
+
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
+  ## System
+  system.stateVersion = "22.11";
 }
