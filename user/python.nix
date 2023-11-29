@@ -8,7 +8,7 @@
     ghidra
     rpcs3
     prismlauncher
-    kicad-with-packages3d
+    kicad
   ];
 
   programs.foot.settings.main.monitor-scale = "27GL850:1.5, G2460:1.6";

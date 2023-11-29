@@ -165,16 +165,21 @@ index 21c49174..c18366cd 100644
  # urgent=no
  # notify=no
 diff --git a/terminal.c b/terminal.c
-index dcaca033..f8a1699c 100644
+index efbbded1..8ddfbee0 100644
 --- a/terminal.c
 +++ b/terminal.c
-@@ -726,6 +726,20 @@ term_set_fonts(struct terminal *term, struct fcft_font *fonts[static 4])
+@@ -792,6 +792,25 @@ term_set_fonts(struct terminal *term, struct fcft_font *fonts[static 4],
      return true;
  }
  
 +static float get_monitor_scaled_dpi(const struct terminal *term, const struct monitor *mon)
 +{
-+    float dpi = mon->dpi;
++    float dpi;
++    if (term_fractional_scaling(term))
++        dpi = mon->dpi.physical;
++    else
++        dpi = mon->dpi.scaled;
++
 +    /* Try to match a monitor from the config, and multiply the dpi by that */
 +    for (size_t i = 0; i < term->conf->monitor_scale.count; ++i) {
 +        const struct config_monitor_scale *scale = &term->conf->monitor_scale.arr[i];
@@ -189,22 +194,41 @@ index dcaca033..f8a1699c 100644
  static float
  get_font_dpi(const struct terminal *term)
  {
-@@ -754,14 +768,15 @@ get_font_dpi(const struct terminal *term)
-     double dpi = 0.0;
-     xassert(term->window != NULL);
-     tll_foreach(term->window->on_outputs, it) {
--        if (it->item->dpi > dpi)
--            dpi = it->item->dpi;
+@@ -820,17 +839,28 @@ get_font_dpi(const struct terminal *term)
+      * scaling factor (no downscaling done by the compositor).
+      */
+ 
+-    xassert(tll_length(term->wl->monitors) > 0);
++    double dpi = 0.0;
++    xassert(term->window != NULL);
++    tll_foreach(term->window->on_outputs, it) {
 +        float monitor_dpi = get_monitor_scaled_dpi(term, it->item);
 +        if (monitor_dpi > dpi)
 +            dpi = monitor_dpi;
-     }
++    }
  
-     /* If we're not mapped, use DPI from first monitor. Hopefully this is where we'll get mapped later... */
-     if (dpi == 0.) {
-         tll_foreach(term->wl->monitors, it) {
--            dpi = it->item.dpi;
+-    const struct wl_window *win = term->window;
+-    const struct monitor *mon = tll_length(win->on_outputs) > 0
+-        ? tll_back(win->on_outputs)
+-        : &tll_front(term->wl->monitors);
++    /* If we're not mapped, use DPI from first monitor. Hopefully this is where we'll get mapped later... */
++    if (dpi == 0.) {
++        tll_foreach(term->wl->monitors, it) {
 +            dpi = get_monitor_scaled_dpi(term, &it->item);
-             break;
-         }
-     }
++            break;
++        }
++    }
+ 
+-    if (term_fractional_scaling(term))
+-        return mon != NULL ? mon->dpi.physical : 96.;
+-    else
+-        return mon != NULL ? mon->dpi.scaled : 96.;
++    if (dpi == 0) {
++        /* No monitors? */
++        dpi = 96.;
++    }
++
++    return dpi;
+ }
+ 
+ static enum fcft_subpixel

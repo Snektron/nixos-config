@@ -1,12 +1,16 @@
-{ lib, stdenv, fetchzip }:
-stdenv.mkDerivation {
+{ lib, stdenv, fetchFromGitHub }:
+stdenv.mkDerivation rec {
   pname = "breeze-obsidian-cursor-theme";
   version = "1.0";
 
-  src = fetchzip {
-    url = "https://code.jpope.org/jpope/breeze_cursor_sources/raw/master/breeze-obsidian-cursor-theme.zip";
-    sha256 = "sha256-Y75iDlmboHlLCDeNGt6rpYUjYhw8y6cdTpQhJfWu6oQ=";
+  src = fetchFromGitHub {
+    owner = "Snektron";
+    repo = "breeze-obsidian-cursor-theme";
+    rev = "d1d78d161a734915eadddce28018199e9c58dc0f";
+    hash = "sha256-MBcxB6/UZGYlnIMNUEnFjoHvsq25/w90aLrGBAc2z1M=";
   };
+
+  sourceRoot = "${src.name}/Breeze_Obsidian";
 
   installPhase = ''
     install -dm 755 $out/share/icons/Breeze_Obsidian

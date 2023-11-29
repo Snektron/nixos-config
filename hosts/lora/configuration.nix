@@ -92,6 +92,8 @@
       pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
     ];
+
+    config.common.default = "*";
   };
 
   ## Audio
