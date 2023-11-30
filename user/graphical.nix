@@ -19,6 +19,7 @@
   home.packages = with pkgs; [
     bitwarden
     bluez
+    ccls
     chromium
     dejavu_fonts
     font-awesome_5
