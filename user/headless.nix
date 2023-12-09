@@ -85,7 +85,7 @@
       # Note: also enables SSH signing.
       # Should this be optional?
       commit.gpgSign = true;
-      user.signingKey = "${../keys/yubikey}";
+      user.signingKey = "${../keys/yk-23825499}";
     };
   };
 
