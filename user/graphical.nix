@@ -75,7 +75,7 @@
           })
           (lib.range 1 9));
       screenshot = pkgs.writeShellScript "screenshot" ''
-        ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - -t png | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
+        ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
       '';
     in {
       normal = tagBinds // {
