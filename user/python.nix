@@ -9,6 +9,7 @@
     rpcs3
     prismlauncher
     kicad
+    nvtop-amd
   ];
 
   programs.foot.settings.main.monitor-scale = "27GL850:1.5, G2460:1.6";

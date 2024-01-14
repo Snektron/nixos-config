@@ -14,6 +14,6 @@
       options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
     '';
 
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
+    binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
   };
 }
