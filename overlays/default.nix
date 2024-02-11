@@ -23,11 +23,11 @@ self: super: {
   # everything.
   linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: {
     nvidiaPackages.stable = supernv.nvidiaPackages.stable.overrideAttrs (old: rec {
-      version = "545.29.02";
+      version = "545.29.06";
       name = "nvidia-x11-${version}";
       src = self.fetchurl {
-        url = "https://us.download.nvidia.com/XFree86/Linux-x86_64/545.29.02/NVIDIA-Linux-x86_64-545.29.02.run";
-        hash = "sha256-RncPlaSjhvBFUCOzWdXSE3PAfRPCIrWAXyJMdLPKuIU=";
+        url = "https://us.download.nvidia.com/XFree86/Linux-x86_64/550.40.07/NVIDIA-Linux-x86_64-550.40.07.run";
+        hash = "sha256-KYk2xye37v7ZW7h+uNJM/u8fNf7KyGTZjiaU03dJpK0=";
       };
     });
     nvidia_x11 = selfnv.nvidiaPackages.stable;
