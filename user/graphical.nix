@@ -40,6 +40,7 @@
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy
     transmission-qt
+    inputs.self.packages.${pkgs.system}.pinball
   ];
 
   fonts.fontconfig.enable = true;
