@@ -43,5 +43,12 @@
     };
   };
 
+  services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
+
   system.stateVersion = "22.11";
 }
