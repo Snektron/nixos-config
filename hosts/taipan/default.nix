@@ -5,6 +5,7 @@
     ../common/network.nix
     ../common/system.nix
     ../common/nix-config.nix
+    ../../modules/nixos/pythobot.nix
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -62,6 +63,11 @@
     port = 22067;
     pools = []; # Don't join any pools
     providedBy = "pythons";
+  };
+
+  services.pythobot = {
+    enable = true;
+    tokenCred = ../../secrets/pythobot-tg-token.cred;
   };
 
   time.timeZone = "Europe/Amsterdam";

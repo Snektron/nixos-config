@@ -1,0 +1,3 @@
+{
+  pythobot = import ./pythobot.nix;
+}

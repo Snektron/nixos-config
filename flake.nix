@@ -15,10 +15,16 @@
   outputs = { self, nixpkgs, home-manager, nixos-vf2, ... } @ inputs: {
     overlays.default = import ./overlays;
 
+    nixosModules = import ./modules/nixos;
+
     nixosConfigurations = let
       mkSystem = nixpkgs: module: nixpkgs.lib.nixosSystem {
          modules = [ module ];
-         specialArgs = { inherit inputs; };
+         # Make sure to pass the right nixpkgs here
+         specialArgs.inputs = {
+           inherit nixpkgs;
+           inherit self home-manager nixos-vf2;
+         };
       };
     in {
       lora = mkSystem nixpkgs ./hosts/lora;
