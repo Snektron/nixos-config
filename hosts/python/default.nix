@@ -54,6 +54,13 @@
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
+  services.openssh = {
+    enable = true;
+    allowSFTP = false;
+    settings.PermitRootLogin = "no";
+    settings.PasswordAuthentication = false;
+  };
+
   ## System
   system.stateVersion = "22.11";
 }
