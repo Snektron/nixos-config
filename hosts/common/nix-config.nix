@@ -29,6 +29,8 @@ in {
     # Use hardlinks instead of softlinks
     settings.auto-optimise-store = true;
 
+    settings.trusted-users = [ "robin" ];
+
     # Enable flakes and `nix <command>` system-wide.
     extraOptions = ''
       experimental-features = nix-command flakes
