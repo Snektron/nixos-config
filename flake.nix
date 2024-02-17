@@ -5,21 +5,27 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
+    nixos-vf2.url = "github:Snektron/nixos-vf2";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # Note: Don't follow the upstream on nixos-vf2 to avoid triggering costly
+    # risc-v rebuilds when bumping the main inputs.
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs: {
+  outputs = { self, nixpkgs, home-manager, nixos-vf2, ... } @ inputs: {
     overlays.default = import ./overlays;
 
     nixosConfigurations = let
-      mkSystem = module: nixpkgs.lib.nixosSystem {
+      mkSystem = nixpkgs: module: nixpkgs.lib.nixosSystem {
          modules = [ module ];
          specialArgs = { inherit inputs; };
       };
     in {
-      lora = mkSystem ./hosts/lora;
-      python = mkSystem ./hosts/python;
+      lora = mkSystem nixpkgs ./hosts/lora;
+      python = mkSystem nixpkgs ./hosts/python;
+      # Use nixos-vf2's pinned nixpkgs here to keep the versions
+      # in sync.
+      rattlesnake = mkSystem nixos-vf2.inputs.nixpkgs ./hosts/rattlesnake;
     };
 
     homeConfigurations = let

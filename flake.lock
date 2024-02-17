@@ -23,11 +23,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1707211557,
-        "narHash": "sha256-LTKTzZ6fM5j8XWXf51IMBzDaOaJg9kYWLUZxoIhzRN8=",
+        "lastModified": 1708091350,
+        "narHash": "sha256-o28BJYi68qqvHipT7V2jkWxDiMS1LF9nxUsou+eFUPQ=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "6e5cc385fc8cf5ca6495d70243074ccdea9f64c7",
+        "rev": "106d3fec43bcea19cb2e061ca02531d54b542ce3",
         "type": "github"
       },
       "original": {
@@ -36,13 +36,48 @@
         "type": "github"
       }
     },
+    "nixos-vf2": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "starfive-tools-src": "starfive-tools-src",
+        "uboot-src": "uboot-src"
+      },
+      "locked": {
+        "lastModified": 1708174428,
+        "narHash": "sha256-Ed6tqTXeHkszCgooWUsQ+xbHtb3q2td7KUCA8ypmsi0=",
+        "owner": "Snektron",
+        "repo": "nixos-vf2",
+        "rev": "cbe218c0b46120eac739b598390471ee1acf31c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Snektron",
+        "repo": "nixos-vf2",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1707514827,
-        "narHash": "sha256-Y+wqFkvikpE1epCx57PsGw+M1hX5aY5q/xgk+ebDwxI=",
+        "lastModified": 1707421437,
+        "narHash": "sha256-dVloHVRTvxBqO2kBnnqrkeVyI7gaUkkCHWbJMpuvPa0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "20f65b86b6485decb43c5498780c223571dd56ef",
+        "rev": "62b27fc5602b79534e69203a9fe893df56557ec4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1708105575,
+        "narHash": "sha256-sS4AItZeUnAei6v8FqxNlm+/27MPlfoGym/TZP0rmH0=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "1d1817869c47682a6bee85b5b0a6537b6c0fba26",
         "type": "github"
       },
       "original": {
@@ -56,7 +91,40 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixos-vf2": "nixos-vf2",
+        "nixpkgs": "nixpkgs_2"
+      }
+    },
+    "starfive-tools-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1695803916,
+        "narHash": "sha256-up58PtvnZTi6rGZcP2VwZrZBYajrZf4MzILixqaNKbE=",
+        "owner": "starfive-tech",
+        "repo": "Tools",
+        "rev": "0747c0510e090f69bf7d2884f44903b77b3db5c5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "starfive-tech",
+        "repo": "Tools",
+        "type": "github"
+      }
+    },
+    "uboot-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707763263,
+        "narHash": "sha256-8IV8t2HLWDrhGjefBmS84W/t2AhDTDN7TjLguUUsyDY=",
+        "owner": "u-boot",
+        "repo": "u-boot",
+        "rev": "a5f877a0bd64af97dbc812c9a0a8d7d6a353d943",
+        "type": "github"
+      },
+      "original": {
+        "owner": "u-boot",
+        "repo": "u-boot",
+        "type": "github"
       }
     }
   },
