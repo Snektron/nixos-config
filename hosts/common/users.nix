@@ -1,4 +1,6 @@
 { pkgs, lib, ... }: {
+  programs.fish.enable = true;
+
   users.users = {
     robin = {
       isNormalUser = true;

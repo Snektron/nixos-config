@@ -10,7 +10,6 @@
     pkgs.home-manager
   ];
 
-  programs.fish.enable = true;
   programs.dconf.enable = true;
 
   programs.steam = {

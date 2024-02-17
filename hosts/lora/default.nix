@@ -5,6 +5,7 @@
     ../common/boot.nix
     ../common/network.nix
     ../common/desktop.nix
+    ../common/v4l2.nix
     ../common/printing.nix
     ../common/stdenv.nix
     ../common/users.nix
@@ -13,6 +14,10 @@
   ];
 
   networking.hostName = "lora";
+
+  networkmanager.enable = true;
+
+  binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 

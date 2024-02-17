@@ -5,6 +5,7 @@
     ../common/network.nix
     ../common/desktop.nix
     ../common/printing.nix
+    ../common/v4l2.nix
     ../common/stdenv.nix
     ../common/users.nix
     ../common/system.nix
@@ -12,6 +13,10 @@
   ];
 
   networking.hostName = "python";
+
+  networkmanager.enable = true;
+
+  binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
 
   boot = {
     # Something is adding amdgpu here, and by default its listed before vfio. This causes

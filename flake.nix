@@ -26,6 +26,7 @@
       # Use nixos-vf2's pinned nixpkgs here to keep the versions
       # in sync.
       rattlesnake = mkSystem nixos-vf2.inputs.nixpkgs ./hosts/rattlesnake;
+      taipan = mkSystem nixpkgs ./hosts/taipan;
     };
 
     homeConfigurations = let
