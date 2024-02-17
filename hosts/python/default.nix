@@ -4,6 +4,7 @@
     ../common/boot.nix
     ../common/network.nix
     ../common/desktop.nix
+    ../common/printing.nix
     ../common/stdenv.nix
     ../common/users.nix
     ../common/system.nix

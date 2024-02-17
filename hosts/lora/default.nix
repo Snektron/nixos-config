@@ -5,6 +5,7 @@
     ../common/boot.nix
     ../common/network.nix
     ../common/desktop.nix
+    ../common/printing.nix
     ../common/stdenv.nix
     ../common/users.nix
     ../common/system.nix
@@ -41,13 +42,6 @@
       START_CHARGE_THRESH_BAT0 = 75;
       STOP_CHARGE_THRESH_BAT0 = 80;
     };
-  };
-
-  services.printing.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-    openFirewall = true;
   };
 
   system.stateVersion = "22.11";
