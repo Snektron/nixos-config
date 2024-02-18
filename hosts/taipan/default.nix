@@ -6,6 +6,7 @@
     ../common/system.nix
     ../common/nix-config.nix
     ../../modules/nixos/pythobot.nix
+    ../../modules/nixos/elderbot.nix
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -68,6 +69,11 @@
   services.pythobot = {
     enable = true;
     tokenCred = ../../secrets/pythobot-tg-token.cred;
+  };
+
+  services.elderbot = {
+    enable = true;
+    tokenCred = ../../secrets/elderbot-tg-token.cred;
   };
 
   time.timeZone = "Europe/Amsterdam";

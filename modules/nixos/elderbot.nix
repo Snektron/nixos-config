@@ -1,14 +1,14 @@
 { inputs, pkgs, config, lib, ... }:
 let
-  pythobot = inputs.self.packages.${pkgs.system}.pythobot;
-  cfg = config.services.pythobot;
+  cfg = config.services.elderbot;
+  elderbot = inputs.self.packages.${pkgs.system}.elderbot;
 in with lib; {
-  options.services.pythobot = {
+  options.services.elderbot = {
     enable = mkOption {
       type = types.bool;
       default = false;
       description = ''
-        If enabled, start the PythoBot server.
+        If enabled, start the ElderBot server.
       '';
     };
 
@@ -21,14 +21,16 @@ in with lib; {
   };
 
   config = mkIf cfg.enable {
-    systemd.services.pythobot = {
-      description = "PythoBot server service";
+    systemd.services.elderbot = {
+      description = "ElderBot server service";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       serviceConfig = {
-        LoadCredentialEncrypted = [ "pythobot-tg-token:${cfg.tokenCred}" ];
-        ExecStart = "${pythobot}/bin/pytho $''{CREDENTIALS_DIRECTORY}/pythobot-tg-token";
+        LoadCredentialEncrypted = [ "elderbot-tg-token:${cfg.tokenCred}" ];
+        ExecStart = "${elderbot}/bin/elderbot $''{CREDENTIALS_DIRECTORY}/elderbot-tg-token";
         DynamicUser = true;
+        CacheDirectory = "elderbot";
+        WorkingDirectory = "%C/elderbot";
       };
     };
   };
