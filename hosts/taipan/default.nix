@@ -7,6 +7,7 @@
     ../common/nix-config.nix
     ../../modules/nixos/pythobot.nix
     ../../modules/nixos/elderbot.nix
+    ../../modules/nixos/sneksbot.nix
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -74,6 +75,11 @@
   services.elderbot = {
     enable = true;
     tokenCred = ../../secrets/elderbot-tg-token.cred;
+  };
+
+  services.sneksbot = {
+    enable = true;
+    tokenCred = ../../secrets/sneksbot-tg-token.cred;
   };
 
   time.timeZone = "Europe/Amsterdam";

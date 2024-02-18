@@ -1,8 +1,8 @@
 { python3 }: with python3.pkgs; buildPythonApplication {
-  pname = "elderbot";
+  pname = "sneksbot";
   version = "1.0";
 
   src = ./.;
 
-  propagatedBuildInputs = [ telethon ];
+  propagatedBuildInputs = [ python-telegram-bot ];
 }
