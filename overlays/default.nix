@@ -32,4 +32,15 @@ self: super: {
     });
     nvidia_x11 = selfnv.nvidiaPackages.stable;
   });
+
+  meld = super.meld.overrideAttrs (old: {
+    version = "git";
+    src = self.fetchFromGitLab {
+      domain = "gitlab.gnome.org";
+      owner = "GNOME";
+      repo = "meld";
+      rev = "2f7dbdedd2b022fce238ba25e182929e0a8cea1e";
+      hash = "sha256-wbY/k3qs8EK96aRkaJpthjhjk7EKohE3HOJMex58v9A=";
+    };
+  });
 }

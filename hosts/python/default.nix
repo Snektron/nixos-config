@@ -13,12 +13,10 @@
   ];
 
   networking.hostName = "python";
-
-  networkmanager.enable = true;
-
-  binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+  networking.networkmanager.enable = true;
 
   boot = {
+    binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
     # Something is adding amdgpu here, and by default its listed before vfio. This causes
     # vfio to fail to bind to the GPU: using mkBefore makes sure that it is loaded before the
     # amdgpu driver.

@@ -12,7 +12,7 @@
     # risc-v rebuilds when bumping the main inputs.
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-vf2, ... } @ inputs: {
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixos-vf2, ... } @ inputs: {
     overlays.default = import ./overlays;
 
     nixosModules = import ./modules/nixos;
@@ -23,7 +23,7 @@
          # Make sure to pass the right nixpkgs here
          specialArgs.inputs = {
            inherit nixpkgs;
-           inherit self home-manager nixos-vf2;
+           inherit self nixos-hardware home-manager nixos-vf2;
          };
       };
     in {

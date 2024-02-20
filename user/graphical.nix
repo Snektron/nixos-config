@@ -22,11 +22,13 @@
     ccls
     chromium
     dejavu_fonts
+    drawio
     font-awesome_5
+    gimp
     grim
     meld
-    moreutils
     montserrat
+    moreutils
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
@@ -36,10 +38,10 @@
     river
     roboto
     tdesktop
+    transmission-qt
     wl-clipboard
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy
-    transmission-qt
     inputs.self.packages.${pkgs.system}.pinball
   ];
 

@@ -14,10 +14,9 @@
   ];
 
   networking.hostName = "lora";
+  networking.networkmanager.enable = true;
 
-  networkmanager.enable = true;
-
-  binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
