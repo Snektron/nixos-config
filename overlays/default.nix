@@ -43,4 +43,12 @@ self: super: {
       hash = "sha256-wbY/k3qs8EK96aRkaJpthjhjk7EKohE3HOJMex58v9A=";
     };
   });
+
+  # Patch teamspeak postgresql plugin to use host instead of hostaddr, so that we can use
+  # unix domain sockets with it.
+  teamspeak_server = super.teamspeak_server.overrideAttrs (old: {
+    postInstall = ''
+      sed --in-place= 's/hostaddr=/    host=/' $out/lib/teamspeak/libts3db_postgresql.so
+    '';
+  });
 }

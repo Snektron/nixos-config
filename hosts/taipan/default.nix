@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, ... }: {
+{ inputs, pkgs, lib, config, ... }: {
   imports = with inputs.self.nixosModules; [
     ./hardware-configuration.nix
     ../common/users.nix
@@ -8,6 +8,7 @@
     ../../modules/nixos/pythobot.nix
     ../../modules/nixos/elderbot.nix
     ../../modules/nixos/sneksbot.nix
+    ../../modules/nixos/teamspeak3-service.nix
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -22,9 +23,12 @@
       allowedTCPPorts = [
         80    # HTTP
         443   # HTTPS
-        22067 # Syncthing relay
+        config.services.syncthing.relay.port
+        config.services.teamspeak.fileTransferPort
       ];
-      allowedUDPPorts = [ ];
+      allowedUDPPorts = [
+        config.services.teamspeak3.defaultVoicePort
+      ];
     };
   };
 
@@ -80,6 +84,37 @@
   services.sneksbot = {
     enable = true;
     tokenCred = ../../secrets/sneksbot-tg-token.cred;
+  };
+
+  services.teamspeak3 = {
+    enable = true;
+    dbHost = ""; # Connect via unix socket to the below database.
+    database = config.users.users.teamspeak.name;
+  };
+
+  services.postgresql = {
+    enable = true;
+    port = 5432;
+
+    # Only allow unix socket authentication
+    authentication = "local sameuser all peer map=superuser_map";
+
+    identMap = ''
+      superuser_map root     postgres
+      superuser_map postgres postgres
+      superuser_map  /^(.*)$ \1
+    '';
+
+    ensureDatabases = [
+      config.users.users.teamspeak.name
+    ];
+
+    ensureUsers = [
+      {
+        inherit (config.users.users.teamspeak) name;
+        ensureDBOwnership = true;
+      }
+    ];
   };
 
   time.timeZone = "Europe/Amsterdam";
