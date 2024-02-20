@@ -66,6 +66,11 @@
     roots = [".git", ".clangd", ".ccls"]
     command = "ccls" # We explicitly dont hardcode a path so that project-specific flakes can override the ccls
     args = ["--init={\"completion\":{\"detailedLabel\":false}}"]
+
+    [language.zig]
+    filetypes = ["zig"]
+    roots = [".git"]
+    command = "zls"
   '';
 
   programs.home-manager.enable = true;
@@ -101,8 +106,12 @@
       trustedHosts = {
         # VPS
         "pythons.space" = {};
+        "cobra".hostname = "cobra.pythons.space";
+        "taipan".hostname = "taipan.pythons.space";
         # Desktop
         "python".hostname = "192.168.178.100";
+        # VisionFive 2
+        "rattlesnake".hostname = "192.168.178.59";
       };
       # git hosts. User is set to "git".
       gitHosts = {
