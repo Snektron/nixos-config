@@ -24,7 +24,7 @@
         80    # HTTP
         443   # HTTPS
         config.services.syncthing.relay.port
-        config.services.teamspeak.fileTransferPort
+        config.services.teamspeak3.fileTransferPort
       ];
       allowedUDPPorts = [
         config.services.teamspeak3.defaultVoicePort
@@ -62,6 +62,32 @@
 
     # nginx complains that this is required.
     commonHttpConfig = "server_names_hash_bucket_size 64;";
+
+    virtualHosts."pythons.space" = {
+      forceSSL = true;
+      enableACME = true;
+      root = "/var/www/pythons.space";
+    };
+
+    virtualHosts."bitwarden.pythons.space" = {
+      forceSSL = true;
+      useACMEHost = "pythons.space";
+      locations."/" = {
+        proxyPass = config.services.vaultwarden.config.domain;
+      };
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    certs = {
+      "pythons.space" = {
+        email = "robin@voetter.nl";
+        extraDomainNames = [
+          "bitwarden.pythons.space"
+        ];
+      };
+    };
   };
 
   services.syncthing.relay = {
@@ -92,6 +118,18 @@
     database = config.users.users.teamspeak.name;
   };
 
+  services.vaultwarden = {
+    enable = true;
+    dbBackend = "postgresql";
+    config = rec {
+      rocketPort = 4567;
+      domain = "http://127.0.0.1:${toString rocketPort}";
+      rocketLog = "critical";
+      signupsAllowed = false;
+      databaseUrl = "postgresql:///${config.users.users.vaultwarden.name}";
+    };
+  };
+
   services.postgresql = {
     enable = true;
     port = 5432;
@@ -107,11 +145,16 @@
 
     ensureDatabases = [
       config.users.users.teamspeak.name
+      config.users.users.vaultwarden.name
     ];
 
     ensureUsers = [
       {
         inherit (config.users.users.teamspeak) name;
+        ensureDBOwnership = true;
+      }
+      {
+        inherit (config.users.users.vaultwarden) name;
         ensureDBOwnership = true;
       }
     ];
