@@ -116,6 +116,7 @@
 
         "None XF86AudioMedia" = "spawn '${playerctl} play-pause'";
         "None XF86AudioPlay" = "spawn '${playerctl} play-pause'";
+        "None XF86AudioPause" = "spawn '${playerctl} play-pause'";
         "None XF86AudioPrev" = "spawn '${playerctl} previous'";
         "None XF86AudioNext" = "spawn '${playerctl} next'";
 
