@@ -21,10 +21,6 @@
     # vfio to fail to bind to the GPU: using mkBefore makes sure that it is loaded before the
     # amdgpu driver.
     initrd.kernelModules = lib.mkBefore [ "vfio" "vfio_pci" "vfio_iommu_type1" ];
-    # Bind the RX580 to vfio-pci
-    extraModprobeConfig = ''
-      options vfio-pci ids=1002:67df,1002:aaf0
-    '';
   };
 
   ## Filesystem configuration
