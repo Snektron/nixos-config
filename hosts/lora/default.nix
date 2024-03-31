@@ -5,7 +5,7 @@
     ../common/boot.nix
     ../common/network.nix
     ../common/desktop.nix
-    ../common/v4l2.nix
+    # ../common/v4l2.nix # Doesn't compile
     ../common/printing.nix
     ../common/stdenv.nix
     ../common/users.nix
