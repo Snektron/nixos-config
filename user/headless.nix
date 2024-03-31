@@ -83,7 +83,7 @@
     userName = "Robin Voetter";
     userEmail = lib.mkDefault "robin@voetter.nl";
 
-    ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ];
+    ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ".ccls-cache" ];
 
     extraConfig = {
       core.autocrlf = false;

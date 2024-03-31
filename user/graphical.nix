@@ -35,6 +35,7 @@
     obsidian
     obs-studio
     pavucontrol
+    qcad
     river
     roboto
     tdesktop
