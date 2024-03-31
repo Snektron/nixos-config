@@ -39,7 +39,7 @@
       matchConfig.Name = "ens6";
       networkConfig = {
         DHCP = "yes";
-        IPv6AcceptRA = false;
+        IPv6AcceptRA = true;
       };
       linkConfig.RequiredForOnline = "routable";
     };
