@@ -95,6 +95,9 @@
       # Should this be optional?
       commit.gpgSign = true;
       user.signingKey = "${../keys/yk-23825499}";
+      merge.conflictstyle = "zdiff3";
+      rebase.autostash = true;
+      diff.algorithm = "histogram";
     };
   };
 
@@ -166,12 +169,13 @@
 
   programs.nix-index.enable = true;
 
+  programs.gpg.enable = true;
   services.gpg-agent = rec {
     defaultCacheTtl = 60 * 60 * 8;
     defaultCacheTtlSsh = defaultCacheTtl;
     maxCacheTtl = 60 * 60 * 8;
     maxCacheTtlSsh = maxCacheTtl;
-    enableSshSupport = true;
+    enableSshSupport = false; # Managed by ssh keys instead
     pinentryFlavor = lib.mkDefault "curses";
   };
 }

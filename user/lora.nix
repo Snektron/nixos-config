@@ -7,6 +7,7 @@
     pkgs.remmina
     pkgs.virt-manager
     pkgs.libreoffice
+    pkgs.prismlauncher
   ];
 
   accounts.email = {

@@ -51,5 +51,8 @@
     pulse.enable = true;
   };
 
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    settings.General.Disable = "Handsfree"; # Fix shitty audio quality, but disables mic
+  };
 }
