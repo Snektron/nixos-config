@@ -37,15 +37,6 @@ in {
     '';
   };
 
-  nixpkgs = {
-    overlays = [ inputs.self.overlays.default ];
-    config = {
-      allowUnfree = true;
-      # https://github.com/nix-community/home-manager/issues/2942#issuecomment-1119760100
-      allowUnfreePredicate = (pkg: true);
-    };
-  };
-
   # Print a summary of changes when switching to a new system.
   system.activationScripts.diff = {
     # Run this script also when running --dry-activate

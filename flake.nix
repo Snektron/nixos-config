@@ -19,7 +19,15 @@
 
     nixosConfigurations = let
       mkSystem = nixpkgs: module: nixpkgs.lib.nixosSystem {
-         modules = [ module ];
+         modules = [
+           module
+           # This is separate because its shared with home-manager
+           # If home-manager options defines these options also, some
+           # asserts trigger in home-manager. But we want them to also
+           # be applied if switching to a home without going through
+           # nixos, so its handled specially.
+          ./modules/nixpkgs-config.nix
+         ];
          # Make sure to pass the right nixpkgs here
          specialArgs.inputs = {
            inherit nixpkgs;
@@ -39,6 +47,8 @@
       mkHome = { system, userModule }: home-manager.lib.homeManagerConfiguration {
         modules = [
           userModule
+          # See above comment on nixpkgs-config.nix
+          ./modules/nixpkgs-config.nix
         ];
         pkgs = nixpkgs.outputs.legacyPackages.${system};
         extraSpecialArgs = { inherit inputs; };

@@ -1,4 +1,4 @@
-{ inputs, lib, config, pkgs, ... }: {
+{ lib, config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ../common/boot.nix
@@ -11,6 +11,8 @@
     ../common/system.nix
     ../common/nix-config.nix
   ];
+
+  home-manager.users.robin = import ../../user/python.nix;
 
   networking.hostName = "python";
   networking.networkmanager.enable = true;

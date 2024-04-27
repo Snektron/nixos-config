@@ -13,6 +13,8 @@
     ../common/nix-config.nix
   ];
 
+  home-manager.users.robin = import ../../user/lora.nix;
+
   networking.hostName = "lora";
   # networking.networkmanager.enable = true;
 
