@@ -5,7 +5,7 @@
     ../common/network.nix
     ../common/desktop.nix
     ../common/printing.nix
-    ../common/v4l2.nix # Doesn't compile
+    ../common/v4l2.nix
     ../common/stdenv.nix
     ../common/users.nix
     ../common/system.nix
@@ -59,6 +59,11 @@
     allowSFTP = false;
     settings.PermitRootLogin = "no";
     settings.PasswordAuthentication = false;
+  };
+
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark;
   };
 
   ## System
