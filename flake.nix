@@ -2,9 +2,9 @@
   description = "Snektrons's NixOS configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager";
     nixos-vf2.url = "github:Snektron/nixos-vf2";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";

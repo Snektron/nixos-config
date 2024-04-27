@@ -20,7 +20,8 @@
   virtualisation.docker.enable = true;
 
   services.yubikey-agent.enable = true;
-  programs.gnupg.agent.pinentryFlavor = "gtk2";
+  # gnupg pinentry is also used for yubikey-agent.
+  programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gtk2;
 
   time.timeZone = "Europe/Amsterdam";
   i18n.defaultLocale = "en_US.UTF-8";

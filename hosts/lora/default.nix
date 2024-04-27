@@ -1,11 +1,11 @@
-{ inputs, config, pkgs, ... }: {
+{ lib, inputs, config, pkgs, ... }: {
   imports = [
     inputs.nixos-hardware.nixosModules.asus-zephyrus-ga401
     ./hardware-configuration.nix
     ../common/boot.nix
     ../common/network.nix
     ../common/desktop.nix
-    # ../common/v4l2.nix # Doesn't compile
+    ../common/v4l2.nix
     ../common/printing.nix
     ../common/stdenv.nix
     ../common/users.nix
@@ -20,6 +20,8 @@
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
+  boot.kernelModules = [ "nouveau" ];
+
   hardware.nvidia = {
     modesetting.enable = true;
     prime.sync.enable = true;
@@ -27,6 +29,8 @@
     powerManagement.enable = true;
     nvidiaSettings = false;
   };
+  services.xserver.videoDrivers = lib.mkForce [ "amdgpu" "nouvaeu" ];
+  services.supergfxd.enable = false; # Enabled by asus-zephyrus-ga401 profile
 
   hardware.opengl = {
     enable = true;

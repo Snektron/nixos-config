@@ -351,8 +351,8 @@
   programs.nix-index.enable = true;
 
   services.gpg-agent = {
-    enable = true;
-    pinentryFlavor = "gtk2";
+    enable = false;
+    pinentryPackage = pkgs.pinentry-gtk2;
   };
 
   gtk = {
