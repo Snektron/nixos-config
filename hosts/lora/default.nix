@@ -14,7 +14,7 @@
   ];
 
   networking.hostName = "lora";
-  networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true;
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
 

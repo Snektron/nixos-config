@@ -4,4 +4,7 @@
   pythobot = pkgs.callPackage ./pythobot { };
   elderbot = pkgs.callPackage ./elderbot { };
   sneksbot = pkgs.callPackage ./sneksbot { };
+
+  # Re-export mesa overlay so that we can build it ahead of time
+  mesa = pkgs.mesa;
 }

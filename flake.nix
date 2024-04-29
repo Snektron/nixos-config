@@ -63,7 +63,10 @@
       system = "x86_64-linux";
     in {
       ${system} = import ./packages {
-        pkgs = nixpkgs.outputs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ self.overlays.default ];
+        };
       };
     };
   };

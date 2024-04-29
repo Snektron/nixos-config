@@ -61,4 +61,40 @@ self: super: {
       sed --in-place= 's/hostaddr=/    host=/' $out/lib/teamspeak/libts3db_postgresql.so
     '';
   });
+
+  mesa = (super.mesa.override {
+    # nouveau-experimental was renamed to nouveau, so we have to manually override it.
+    vulkanDrivers = [ "amd" "nouveau" "swrast" ];
+    galliumDrivers = [ "nouveau" "radeonsi" "swrast" "zink" ];
+    enableOpenCL = self.stdenv.isx86_64;
+  }).overrideAttrs (old: let
+    rustDeps = [
+      {
+        pname = "paste";
+        version = "1.0.14";
+        hash = "sha256-+J1h7New5MEclUBvwDQtTYJCHKKqAEOeQkuKy+g0vEc=";
+      }
+    ];
+
+    copyRustDep = dep: ''
+      cp -R --no-preserve=mode,ownership ${self.fetchCrate dep} subprojects/${dep.pname}-${dep.version}
+      cp -R subprojects/packagefiles/${dep.pname}/* subprojects/${dep.pname}-${dep.version}/
+    '';
+
+    copyRustDeps = self.lib.concatStringsSep "\n" (builtins.map copyRustDep rustDeps);
+  in {
+    version = "24.04.29-git";
+    src = self.fetchFromGitLab {
+      domain = "gitlab.freedesktop.org";
+      owner = "mesa";
+      repo = "mesa";
+      rev = "dfe5e5667155421dd25a5ac6cb70d0fe24e0d874";
+      hash = "sha256-t4YnB5z51SQc3gr3OyKW/SLpisWXhoVAvboW2SbJ3B4=";
+    };
+    postPatch = old.postPatch + ''
+      ${copyRustDeps}
+    '';
+    nativeBuildInputs = old.nativeBuildInputs ++ [ self.rust-cbindgen ];
+    mesonFlags = old.mesonFlags ++ [ "-Dintel-rt=disabled" "-Dintel-clc=system" ];
+  });
 }
