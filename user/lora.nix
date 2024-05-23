@@ -26,9 +26,10 @@
 
   programs.foot.settings.main.monitor-scale = "eDP-1:1, 27GL850:1.7, G2460:1.6, QROM8HA000914:1.5";
 
-  services.kanshi.profiles = {
-    undocked = {
-      outputs = [
+  services.kanshi.settings = {
+    {
+      profile.name = "undocked";
+      profile.outputs = [
         {
           criteria = "eDP-1";
           status = "enable";
@@ -36,9 +37,10 @@
           position = "0,0";
         }
       ];
-    };
-    amsterdamOffice = {
-      outputs = [
+    }
+    {
+      profile.name = "amsterdamOffice";
+      profile.outputs = [
         {
           criteria = "eDP-1";
           status = "enable";
@@ -53,8 +55,9 @@
         }
       ];
     };
-    homeLora = {
-      outputs = [
+    {
+      profile.name = "home";
+      profile.outputs = [
         {
           criteria = "eDP-1";
           status = "enable";
@@ -66,22 +69,6 @@
           status = "enable";
           mode = "2560x1440@60Hz";
           position = "0,0";
-        }
-      ];
-    };
-    homePython = {
-      outputs = [
-        {
-          criteria = "DP-1";
-          status = "enable";
-          mode = "2560x1440@144Hz";
-          position = "0,0";
-        }
-        {
-          criteria = "DP-2";
-          status = "enable";
-          mode = "1920x1080@144Hz";
-          position = "2560,200";
         }
       ];
     };
