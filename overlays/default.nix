@@ -43,17 +43,6 @@ self: super: {
     nvidia_x11 = selfnv.nvidiaPackages.stable;
   });
 
-  meld = super.meld.overrideAttrs (old: {
-    version = "git";
-    src = self.fetchFromGitLab {
-      domain = "gitlab.gnome.org";
-      owner = "GNOME";
-      repo = "meld";
-      rev = "2f7dbdedd2b022fce238ba25e182929e0a8cea1e";
-      hash = "sha256-wbY/k3qs8EK96aRkaJpthjhjk7EKohE3HOJMex58v9A=";
-    };
-  });
-
   # Patch teamspeak postgresql plugin to use host instead of hostaddr, so that we can use
   # unix domain sockets with it.
   teamspeak_server = super.teamspeak_server.overrideAttrs (old: {
@@ -62,7 +51,7 @@ self: super: {
     '';
   });
 
-  mesa = (super.mesa.override {
+  mesa_git = (super.mesa.override {
     # nouveau-experimental was renamed to nouveau, so we have to manually override it.
     vulkanDrivers = [ "amd" "nouveau" "swrast" ];
     galliumDrivers = [ "nouveau" "radeonsi" "swrast" "zink" ];
@@ -88,8 +77,8 @@ self: super: {
       domain = "gitlab.freedesktop.org";
       owner = "mesa";
       repo = "mesa";
-      rev = "dfe5e5667155421dd25a5ac6cb70d0fe24e0d874";
-      hash = "sha256-t4YnB5z51SQc3gr3OyKW/SLpisWXhoVAvboW2SbJ3B4=";
+      rev = "450c9460c641807a66ce1017c0c8a1aec94c243d";
+      hash = "sha256-BPd7dl2ASw8IWMD1Z1rGFzihJ+uL9gZeUQ7ykrFB/Qc=";
     };
     postPatch = old.postPatch + ''
       ${copyRustDeps}

@@ -9,6 +9,7 @@
     ../common/stdenv.nix
     ../common/users.nix
     ../common/system.nix
+    ../common/gpu.nix
     ../common/nix-config.nix
   ];
 
@@ -48,11 +49,6 @@
     { domain = "*"; item = "memlock"; type = "soft"; value = "unlimited"; }
     { domain = "*"; item = "memlock"; type = "hard"; value = "unlimited"; }
   ];
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-  };
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 

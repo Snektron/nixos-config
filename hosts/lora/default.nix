@@ -10,6 +10,7 @@
     ../common/stdenv.nix
     ../common/users.nix
     ../common/system.nix
+    ../common/gpu.nix
     ../common/nix-config.nix
   ];
 
