@@ -54,14 +54,6 @@
         extraSpecialArgs = { inherit inputs; };
       };
     in {
-      lora = mkHome {
-        system = "x86_64-linux";
-        userModule = ./user/lora.nix;
-      };
-      python = mkHome {
-        system = "x86_64-linux";
-        userModule = ./user/python.nix;
-      };
       headless = mkHome {
         system = "x86_64-linux";
         userModule = ./user/headless.nix;
