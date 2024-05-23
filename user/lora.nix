@@ -24,9 +24,9 @@
 
   programs.git.userEmail = "robin@streamhpc.com";
 
-  programs.foot.settings.main.monitor-scale = "eDP-1:1, 27GL850:1.7, G2460:1.6, QROM8HA000914:1.5";
+  programs.foot.settings.main.monitor-scale = "eDP-1:1, 27GL850:1.7, G2460:1.6, PL3494WQ:1.5";
 
-  services.kanshi.settings = {
+  services.kanshi.settings = [
     {
       profile.name = "undocked";
       profile.outputs = [
@@ -48,13 +48,13 @@
           position = "440,1440";
         }
         {
-          criteria = "Unknown U34P2G1 QROM8HA000914";
+          criteria = "HDMI-A-1";
           status = "enable";
           mode = "3440x1440@60Hz";
           position = "0,0";
         }
       ];
-    };
+    }
     {
       profile.name = "home";
       profile.outputs = [
@@ -71,8 +71,8 @@
           position = "0,0";
         }
       ];
-    };
-  };
+    }
+  ];
 
   services.syncthing.enable = true;
 }
