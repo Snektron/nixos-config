@@ -13,6 +13,7 @@
   accounts.email = {
     accounts.streamhpc = {
       address = "robin@streamhpc.com";
+      realName = "Robin Voetter";
       smtp.tls.useStartTls = true;
 
       primary = true;
