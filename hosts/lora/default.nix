@@ -25,6 +25,9 @@
 
   boot.kernelModules = [ "nouveau" ];
 
+  # Temporarily downgrade to 6.8, see https://bbs.archlinux.org/viewtopic.php?id=295908
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_8;
+
   hardware.nvidia = {
     modesetting.enable = true;
     prime.sync.enable = true;
