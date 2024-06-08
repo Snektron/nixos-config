@@ -35,6 +35,12 @@
     powerManagement.enable = true;
     nvidiaSettings = false;
   };
+  hardware.opengl = {
+    # Funny unstable mesa version, see overlays/default.nix
+    package = pkgs.mesa_git.drivers;
+    package32 = pkgs.pkgsi686Linux.mesa_git.drivers;
+  };
+
   services.xserver.videoDrivers = lib.mkForce [ "amdgpu" "nouvaeu" ];
   services.supergfxd.enable = false; # Enabled by asus-zephyrus-ga401 profile
 

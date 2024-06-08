@@ -118,6 +118,7 @@
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
       set fish_greeting
       fish_vi_key_bindings
+      set -gx GPG_TTY (tty)
     '';
     shellAbbrs = {
       gs = "git status";

@@ -132,7 +132,7 @@
 
   services.postgresql = {
     enable = true;
-    port = 5432;
+    settings.port = 5432;
 
     # Only allow unix socket authentication
     authentication = "local sameuser all peer map=superuser_map";
