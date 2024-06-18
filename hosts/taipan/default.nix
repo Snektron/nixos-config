@@ -11,6 +11,8 @@
     ../../modules/nixos/teamspeak3-service.nix
   ];
 
+  home-manager.users.robin = import ../../user/headless.nix;
+
   boot.tmp.cleanOnBoot = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
