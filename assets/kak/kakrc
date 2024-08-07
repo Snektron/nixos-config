@@ -67,7 +67,7 @@ hook global WinSetOption filetype=yaml %{
     set-option window indentwidth 2
 }
 
-hook global BufCreate .*\.(cuh|cu|hip|mm)$ %{
+hook global BufCreate .*\.(cuh|cu|hip|mm|cl)$ %{
     set-option buffer filetype c++
 }
 
@@ -147,7 +147,7 @@ clipb-enable
 set-option global clipb_multiple_selections 'true'
 
 # --- Commands ---
-set-option global grepcmd 'rg -Hn --no-heading'
+set-option global grepcmd 'rg -Hn. --iglob !.git --no-heading'
 
 define-command guard -docstring "Generate header guards for the current file" %{
     eval %sh{
@@ -167,7 +167,7 @@ define-command rofi-buffers -docstring 'Select an open buffer using Rofi' %{
 
 define-command rofi-files -docstring 'Select a file using Rofi' %{
     eval %sh{
-        BUFFER=$(fd --type f | awk '{dirname=$0; sub(/\/[^\/]*\/?$/, "", dirname); print dirname, $0}' | sort -V | cut -d' ' -f2 | rofi -dmenu -p files -i | tr -d \')
+        BUFFER=$(fd -H -E .git -t f | awk '{dirname=$0; sub(/\/[^\/]*\/?$/, "", dirname); print dirname, $0}' | sort -V | cut -d' ' -f2 | rofi -dmenu -p files -i | tr -d \')
         if [ -n "$BUFFER" ]; then
             printf "%s\n" "edit ${BUFFER}"
         fi
