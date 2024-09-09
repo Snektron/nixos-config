@@ -1,4 +1,4 @@
-self: super: {
+nixpkgs: self: super: {
   # Patch foot with an option that allows per-monitor scaling, so that
   # DPI and stuff isn't so horrible.
   foot = super.foot.overrideAttrs (old: rec {
@@ -31,15 +31,18 @@ self: super: {
   # Note: We could also just set hardware.nvidia.package, but it seems that some derivations
   # use pkgs.nvidia_x11 directly rather than this option. This makes sure that we catch
   # everything.
-  linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: {
-    nvidiaPackages.stable = supernv.nvidiaPackages.stable.overrideAttrs (old: rec {
-      version = "545.29.06";
-      name = "nvidia-x11-${version}";
-      src = self.fetchurl {
-        url = "https://us.download.nvidia.com/XFree86/Linux-x86_64/550.40.07/NVIDIA-Linux-x86_64-550.40.07.run";
-        hash = "sha256-KYk2xye37v7ZW7h+uNJM/u8fNf7KyGTZjiaU03dJpK0=";
-      };
-    });
+  linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: let
+    generic = import "${nixpkgs}/pkgs/os-specific/linux/nvidia-x11/generic.nix";
+  in {
+    nvidiaPackages.stable = selfnv.callPackage (generic {
+      version = "560.35.03";
+      sha256_64bit = "sha256-8pMskvrdQ8WyNBvkU/xPc/CtcYXCa7ekP73oGuKfH+M=";
+      openSha256 = "sha256-/32Zf0dKrofTmPZ3Ratw4vDM7B+OgpC4p7s+RHUjCrg=";
+      useSettings = false;
+      usePersistenced = false;
+    }) {};
+    nvidiaPackages.production = selfnv.nvidiaPackages.stable;
+    nvidiaPackages.beta = selfnv.nvidiaPackages.stable;
     nvidia_x11 = selfnv.nvidiaPackages.stable;
   });
 

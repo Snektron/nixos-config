@@ -23,11 +23,6 @@
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
-  boot.kernelModules = [ "nouveau" ];
-
-  # Temporarily downgrade to 6.8, see https://bbs.archlinux.org/viewtopic.php?id=295908
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_8;
-
   hardware.nvidia = {
     modesetting.enable = true;
     prime.sync.enable = true;
@@ -35,14 +30,6 @@
     powerManagement.enable = true;
     nvidiaSettings = false;
   };
-  hardware.opengl = {
-    # Funny unstable mesa version, see overlays/default.nix
-    package = pkgs.mesa_git.drivers;
-    package32 = pkgs.pkgsi686Linux.mesa_git.drivers;
-  };
-
-  services.xserver.videoDrivers = lib.mkForce [ "amdgpu" "nouvaeu" ];
-  services.supergfxd.enable = false; # Enabled by asus-zephyrus-ga401 profile
 
   hardware.opengl = {
     enable = true;
@@ -83,4 +70,32 @@
   environment.systemPackages = [ pkgs.virtiofsd ];
 
   system.stateVersion = "22.11";
+
+  # system.nixos.tags = [ "proprietary" ];
+
+  # system.nixos.tags = lib.mkForce [ "nouveau" ];
+  # boot.kernelModules = [ "nouveau" ];
+  # services.xserver.videoDrivers = lib.mkForce [ "amdgpu" "nouvaeu" ];
+  # services.supergfxd.enable = false; # Enabled by asus-zephyrus-ga401 profile
+
+  # hardware.opengl = {
+  #   # Funny unstable mesa version, see overlays/default.nix
+  #   package = pkgs.mesa_git.drivers;
+  #   package32 = pkgs.pkgsi686Linux.mesa_git.drivers;
+  # };
+
+  # specialisation = {
+  #   nouveau.configuration = {
+  #     system.nixos.tags = lib.mkForce [ "" ];
+  #     boot.kernelModules = [ "nouveau" ];
+  #     services.xserver.videoDrivers = lib.mkForce [ "amdgpu" "nouvaeu" ];
+  #     services.supergfxd.enable = false; # Enabled by asus-zephyrus-ga401 profile
+
+  #     hardware.opengl = {
+  #       # Funny unstable mesa version, see overlays/default.nix
+  #       package = pkgs.mesa_git.drivers;
+  #       package32 = pkgs.pkgsi686Linux.mesa_git.drivers;
+  #     };
+  #   };
+  # };
 }

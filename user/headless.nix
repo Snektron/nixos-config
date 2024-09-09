@@ -12,11 +12,14 @@
     acpi
     (aspellWithDicts (dicts: [dicts.en dicts.en-computers dicts.en-science]))
     bintools-unwrapped
+    bitwarden-cli
+    docker-compose
     editorconfig-core-c
     fd
     fzf
     gnupg
     htop
+    jq
     kak-lsp
     kakoune
     killall

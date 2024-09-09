@@ -21,6 +21,7 @@
     bluez
     ccls
     chromium
+    corefonts
     dejavu_fonts
     drawio
     font-awesome_5

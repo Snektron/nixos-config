@@ -13,7 +13,7 @@
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, nixos-vf2, ... } @ inputs: {
-    overlays.default = import ./overlays;
+    overlays.default = import ./overlays nixpkgs;
 
     nixosModules = import ./modules/nixos;
 
