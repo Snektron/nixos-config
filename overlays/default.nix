@@ -31,16 +31,15 @@ nixpkgs: self: super: {
   # Note: We could also just set hardware.nvidia.package, but it seems that some derivations
   # use pkgs.nvidia_x11 directly rather than this option. This makes sure that we catch
   # everything.
-  linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: let
-    generic = import "${nixpkgs}/pkgs/os-specific/linux/nvidia-x11/generic.nix";
-  in {
-    nvidiaPackages.stable = selfnv.callPackage (generic {
+  linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: {
+    nvidiaPackages.mkDriver = supernv.nvidiaPackages.mkDriver;
+    nvidiaPackages.stable = selfnv.nvidiaPackages.mkDriver {
       version = "560.35.03";
       sha256_64bit = "sha256-8pMskvrdQ8WyNBvkU/xPc/CtcYXCa7ekP73oGuKfH+M=";
       openSha256 = "sha256-/32Zf0dKrofTmPZ3Ratw4vDM7B+OgpC4p7s+RHUjCrg=";
       useSettings = false;
       usePersistenced = false;
-    }) {};
+    };
     nvidiaPackages.production = selfnv.nvidiaPackages.stable;
     nvidiaPackages.beta = selfnv.nvidiaPackages.stable;
     nvidia_x11 = selfnv.nvidiaPackages.stable;
