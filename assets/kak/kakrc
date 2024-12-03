@@ -46,6 +46,17 @@ hook global WinSetOption filetype=(c|cpp) %{
     set global formatcmd clang-format
 }
 
+hook global BufCreate .*\.(glsl|frag|vert|comp)$ %{
+    set-option buffer filetype glsl
+}
+
+hook global WinSetOption filetype=glsl %{
+    require-module c
+    set-option buffer comment_line '//'
+    add-highlighter window/glsl ref c
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/glsl }
+}
+
 hook global WinSetOption filetype=zig %{
     # Override some zig symbols to the proper type
     add-highlighter -override shared/zig/code/ regex '\b(?:true|false|null|undefined)\b' 0:builtin

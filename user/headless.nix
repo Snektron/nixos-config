@@ -54,7 +54,7 @@
     filetypes = ["c", "cpp"]
     roots = [".git", ".clangd", ".ccls"]
     command = "ccls" # We explicitly dont hardcode a path so that project-specific flakes can override the ccls
-    args = ["--init={\"completion\":{\"detailedLabel\":false}}"]
+    args = ["--init={\"completion\":{\"detailedLabel\":false},\"compilationDatabaseDirectory\":\"build\"}"]
 
     [language.zig]
     filetypes = ["zig"]
@@ -66,6 +66,7 @@
 
   programs.git = {
     enable = true;
+    lfs.enable = true;
 
     package = pkgs.gitFull;
 
