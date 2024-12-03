@@ -31,7 +31,7 @@
     montserrat
     moreutils
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
     obsidian
     obs-studio
@@ -40,7 +40,7 @@
     river
     roboto
     tdesktop
-    transmission-qt
+    transmission_4-qt
     wl-clipboard
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy

@@ -31,11 +31,6 @@
     nvidiaSettings = false;
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-  };
-
   services.logind = {
     lidSwitch = "ignore";
     lidSwitchDocked = "ignore";
