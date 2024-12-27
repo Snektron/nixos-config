@@ -147,9 +147,7 @@ hook global WinSetOption filetype=(c|cpp) -group c-cpp-lsp %{
 source "%val{config}/rc/clipb.kak"
 source "%val{config}/rc/foot.kak"
 source "%val{config}/rc/sudo-write.kak"
-source "%val{config}/rc/wiki.kak"
 source "%val{config}/rc/z80.kak"
-source "%val{config}/rc/j.kak"
 source "%val{config}/rc/spirv.kak"
 source "%val{config}/rc/a68.kak"
 
