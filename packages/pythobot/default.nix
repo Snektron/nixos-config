@@ -1,17 +1,14 @@
-{ buildGoPackage, fetchFromGitHub }:
-buildGoPackage rec {
+{ buildGoModule, fetchFromGitHub }:
+buildGoModule rec {
   name = "pythobot";
   version = "1.0.0";
-  rev = "51762d0b512a7d430a2fd7a2c2a361821bcc5a78";
-
-  goPackagePath = "github.com/Snektron/pytho";
 
   src = fetchFromGitHub {
-    inherit rev;
     owner = "Snektron";
     repo = "pytho";
-    sha256 = "183alkhdk4a155591igddqhrwmmrg4cs94hw09xdxc9d1ril578v";
+    sha256 = "sha256-Vvm9BZjNyswmauWPat61Nx3tDkb7L35rMXZepGfleOg=";
+    rev = "00b702c3af3e8417ba54cce0e867204975bf42c8";
   };
 
-  goDeps = ./pytho-deps.nix;
+  vendorHash = "sha256-QoVryPstnfdvc390pgAeLF04AXNzR2BEXLXY2isTK+s=";
 }
