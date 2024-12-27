@@ -163,6 +163,7 @@
     extraConfig = ''
       riverctl float-filter-add app-id 'float'
       riverctl float-filter-add app-id 'popup'
+      riverctl rule-add ssd
     '';
   };
 

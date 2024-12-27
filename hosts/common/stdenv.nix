@@ -29,6 +29,8 @@
   # gnupg pinentry is also used for yubikey-agent.
   programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gtk2;
 
+  programs.adb.enable = true;
+
   time.timeZone = "Europe/Amsterdam";
   i18n.defaultLocale = "en_US.UTF-8";
 }

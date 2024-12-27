@@ -104,11 +104,13 @@
         # Desktop
         "python".hostname = "192.168.178.100";
         # VisionFive 2
-        "rattlesnake".hostname = "192.168.178.59";
+        "rattlesnake".hostname = "192.168.178.20";
       };
       # git hosts. User is set to "git".
       gitHosts = {
         "github.com" = {};
+        "codeberg.org" = {};
+        "gitlab.com" = {};
       };
       setDefaults = defaults: hosts: builtins.mapAttrs (name: value: value // defaults) hosts;
     in (setDefaults { user = "robin"; forwardAgent = true; } trustedHosts)
