@@ -90,7 +90,7 @@
         "${mod} K" = "focus-view previous";
         "${mod}+Shift J" = "swap next";
         "${mod}+Shift K" = "swap previous";
-        "${mod} V" = "swaylock";
+        "${mod} V" = "spawn '${pkgs.swaylock}/bin/swaylock'";
 
         "${mod}+Shift Return" = "zoom";
 
