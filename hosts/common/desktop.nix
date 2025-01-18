@@ -23,6 +23,8 @@
     };
   };
 
+  security.pam.services.swaylock = {};
+
   services.dbus.enable = true;
 
   xdg.portal = {

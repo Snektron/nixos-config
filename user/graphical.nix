@@ -90,6 +90,7 @@
         "${mod} K" = "focus-view previous";
         "${mod}+Shift J" = "swap next";
         "${mod}+Shift K" = "swap previous";
+        "${mod} V" = "swaylock";
 
         "${mod}+Shift Return" = "zoom";
 
@@ -327,6 +328,16 @@
     enable = true;
     mode = "fill";
     systemdTarget = "river-session.target";
+  };
+
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      scaling = config.programs.swaybg.mode;
+      image = "${config.programs.swaybg.image}";
+      indicator-caps-lock = true;
+      show-failed-attempts = true;
+    };
   };
 
   programs.thunderbird = {
