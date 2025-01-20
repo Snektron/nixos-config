@@ -94,7 +94,11 @@ define-command clipb-set -docstring 'set system clipboard from the " register' %
 			clipboard="$kak_main_reg_dquote"
 		fi
 
-		printf '%s' "$clipboard" | eval "$kak_opt_clipb_set_command" >/dev/null 2>&1 &
+		if [ -n "$WAYLAND_DISPLAY" ]; then
+			wl-copy "$clipboard" >/dev/null 2>&1 &
+		else
+			printf '%s' "$clipboard" | eval "$kak_opt_clipb_set_command" >/dev/null 2>&1 &
+		fi
 	}
 }
 
