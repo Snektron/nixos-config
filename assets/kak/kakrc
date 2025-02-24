@@ -150,6 +150,7 @@ source "%val{config}/rc/sudo-write.kak"
 source "%val{config}/rc/z80.kak"
 source "%val{config}/rc/spirv.kak"
 source "%val{config}/rc/a68.kak"
+source "%val{config}/rc/futhark.kak"
 
 clipb-detect
 clipb-enable
