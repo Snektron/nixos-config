@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ lib, pkgs, config, ... }: {
   boot = {
     loader = {
       systemd-boot.enable = true;
@@ -7,6 +7,6 @@
     };
 
     tmp.cleanOnBoot = true;
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
   };
 }

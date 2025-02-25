@@ -29,6 +29,7 @@
     prime.offload.enable = false;
     powerManagement.enable = true;
     nvidiaSettings = false;
+    open = false;
   };
 
   services.logind = {
