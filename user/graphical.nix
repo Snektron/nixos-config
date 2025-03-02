@@ -45,6 +45,7 @@
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy
     inputs.self.packages.${pkgs.system}.pinball
+    inputs.self.packages.${pkgs.system}.nsight-compute
   ];
 
   fonts.fontconfig.enable = true;
