@@ -77,6 +77,8 @@
 
     extraConfig = {
       core.autocrlf = false;
+      # Force 4 space tabs
+      core.pager = "less -x1,5";
       pull.rebase = true;
       color.ui = true;
 

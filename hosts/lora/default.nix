@@ -32,6 +32,9 @@
     open = false;
   };
 
+  # Enable amdvlk in addition to radv
+  hardware.amdgpu.amdvlk.enable = true;
+
   services.logind = {
     lidSwitch = "ignore";
     lidSwitchDocked = "ignore";
@@ -64,6 +67,11 @@
   };
 
   environment.systemPackages = [ pkgs.virtiofsd ];
+
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark;
+  };
 
   system.stateVersion = "22.11";
 
