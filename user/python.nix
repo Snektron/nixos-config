@@ -21,13 +21,13 @@
       profile.name = "home";
       profile.outputs = [
         {
-          criteria = "DP-1";
+          criteria = "LG Electronics 27GL850 011NTABE4544";
           status = "enable";
           mode = "2560x1440@144Hz";
           position = "0,0";
         }
         {
-          criteria = "DP-2";
+          criteria = "AOC G2460 0x000002C3";
           status = "enable";
           mode = "1920x1080@144Hz";
           position = "2560,200";
