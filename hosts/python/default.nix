@@ -64,6 +64,8 @@
     package = pkgs.wireshark;
   };
 
+  services.tailscale.enable = true;
+
   ## System
   system.stateVersion = "22.11";
 }

@@ -46,6 +46,7 @@
     xdg-utils # xdg-open required for foot url thingy
     inputs.self.packages.${pkgs.system}.pinball
     inputs.self.packages.${pkgs.system}.nsight-compute
+    rivercarro
   ];
 
   fonts.fontconfig.enable = true;
@@ -55,7 +56,7 @@
     systemdIntegration = true;
 
     layoutGenerator = {
-      command = "${pkgs.river}/bin/rivertile -view-padding 2 -outer-padding 2 -main-ratio 0.5";
+      command = "${pkgs.rivercarro}/bin/rivercarro -inner-gaps 2 -outer-gaps 2 -main-ratio 0.5 -per-tag";
     };
 
     bindings =
@@ -103,11 +104,18 @@
         "${mod} F" = "toggle-fullscreen";
         "${mod} D" = "spawn '${pkgs.rofi-wayland}/bin/rofi -combi-modi drun,ssh -show combi -modi combi'";
 
-        "${mod} H" = "send-layout-cmd rivertile 'main-ratio -0.05'";
-        "${mod} L" = "send-layout-cmd rivertile 'main-ratio +0.05'";
+        "${mod} H" = "send-layout-cmd rivercarro 'main-ratio -0.05'";
+        "${mod} L" = "send-layout-cmd rivercarro 'main-ratio +0.05'";
 
-        "${mod}+Shift H" = "send-layout-cmd rivertile 'main-count +1'";
-        "${mod}+Shift L" = "send-layout-cmd rivertile 'main-count -1'";
+        "${mod}+Shift H" = "send-layout-cmd rivercarro 'main-count +1'";
+        "${mod}+Shift L" = "send-layout-cmd rivercarro 'main-count -1'";
+
+        "${mod} Up" = "send-layout-cmd rivercarro 'main-location top'";
+        "${mod} Right" = "send-layout-cmd rivercarro 'main-location right'";
+        "${mod} Down" = "send-layout-cmd rivercarro 'main-location bottom'";
+        "${mod} Left" = "send-layout-cmd rivercarro 'main-location left'";
+        "${mod} M" = "send-layout-cmd rivercarro 'main-location monocle'";
+        "${mod} W" = "send-layout-cmd rivercarro 'main-location-cycle left,monocle'";
 
         "None Print" = "spawn '${screenshot}'";
 
@@ -166,6 +174,7 @@
       riverctl float-filter-add app-id 'float'
       riverctl float-filter-add app-id 'popup'
       riverctl rule-add ssd
+      riverctl default-layout rivercarro
     '';
   };
 

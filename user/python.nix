@@ -8,7 +8,7 @@
     ghidra
     rpcs3
     prismlauncher
-    kicad
+    kicad-unstable # kicad is broken
     nvtopPackages.amd
   ];
 
