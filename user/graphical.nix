@@ -46,6 +46,7 @@
     xdg-utils # xdg-open required for foot url thingy
     inputs.self.packages.${pkgs.system}.pinball
     inputs.self.packages.${pkgs.system}.nsight-compute
+    inputs.self.packages.${pkgs.system}.nsight-systems
     rivercarro
   ];
 

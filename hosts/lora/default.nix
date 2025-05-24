@@ -32,9 +32,6 @@
     open = false;
   };
 
-  # Enable amdvlk in addition to radv
-  hardware.amdgpu.amdvlk.enable = true;
-
   services.logind = {
     lidSwitch = "ignore";
     lidSwitchDocked = "ignore";
