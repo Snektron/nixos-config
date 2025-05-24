@@ -363,7 +363,7 @@
 
   services.mako = {
     enable = true;
-    defaultTimeout = 3000;
+    settings.default-timeout = 3000;
   };
 
   services.kanshi = {
@@ -375,7 +375,7 @@
 
   services.gpg-agent = {
     enable = false;
-    pinentryPackage = pkgs.pinentry-gtk2;
+    pinentry.package = pkgs.pinentry-gtk2;
   };
 
   gtk = {

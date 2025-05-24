@@ -171,6 +171,6 @@
     maxCacheTtl = 60 * 60 * 8;
     maxCacheTtlSsh = maxCacheTtl;
     enableSshSupport = false; # Managed by ssh keys instead
-    pinentryPackage = lib.mkDefault pkgs.pinentry-curses;
+    pinentry.package = lib.mkDefault pkgs.pinentry-curses;
   };
 }
