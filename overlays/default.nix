@@ -23,8 +23,8 @@ nixpkgs: self: super: {
   linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: {
     nvidiaPackages.mkDriver = supernv.nvidiaPackages.mkDriver;
     nvidiaPackages.stable = selfnv.nvidiaPackages.mkDriver {
-      version = "570.133.07";
-      sha256_64bit = "sha256-LUPmTFgb5e9VTemIixqpADfvbUX1QoTT2dztwI3E3CY=";
+      version = "575.64";
+      sha256_64bit = "sha256-6wG8/nOwbH0ktgg8J+ZBT2l5VC8G5lYBQhtkzMCtaLE=";
       openSha256 = "";
       useSettings = false;
       usePersistenced = false;
@@ -40,6 +40,24 @@ nixpkgs: self: super: {
     postInstall = ''
       sed --in-place= 's/hostaddr=/    host=/' $out/lib/teamspeak/libts3db_postgresql.so
     '';
+  });
+
+  river = (super.river.override {
+    wlroots_0_18 = self.wlroots_0_19;
+  }).overrideAttrs (old: {
+    version = "3.11-git";
+
+    src = self.fetchFromGitea {
+      domain = "codeberg.org";
+      owner = "river";
+      repo = "river";
+      rev = "fcf8b1e44293875627e1b3b3223809ed01ebfcab";
+      hash = "sha256-SyV9FvAcQysLvBJllSUfgDo8dxeV0x3HHedQl1Ysyao=";
+    };
+
+    deps = self.callPackage ./river.zig.zon.nix {
+      zig = self.zig_0_14;
+    };
   });
 
   mesa_git = (super.mesa.override {

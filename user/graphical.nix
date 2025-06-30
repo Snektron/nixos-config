@@ -47,6 +47,7 @@
     inputs.self.packages.${pkgs.system}.pinball
     inputs.self.packages.${pkgs.system}.nsight-compute
     inputs.self.packages.${pkgs.system}.nsight-systems
+    inputs.self.packages.${pkgs.system}.rocprof-compute-viewer
     rivercarro
   ];
 

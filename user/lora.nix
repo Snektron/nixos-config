@@ -73,6 +73,29 @@
         }
       ];
     }
+    {
+      profile.name = "home2";
+      profile.outputs = [
+        {
+          criteria = "eDP-1";
+          status = "enable";
+          mode = "2560x1440@60Hz";
+          position = "0,1440";
+        }
+        {
+          criteria = "Goldstar Company Ltd 27GL850 011NTABE4544";
+          status = "enable";
+          mode = "2560x1440@60Hz";
+          position = "0,0";
+        }
+        {
+          criteria = "AOC G2460 0x000002C3";
+          status = "enable";
+          mode = "1920x1080@60Hz";
+          position = "2560,200";
+        }
+      ];
+    }
   ];
 
   services.syncthing.enable = true;

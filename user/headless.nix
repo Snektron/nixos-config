@@ -35,6 +35,7 @@
     unzip
     usbutils
     visidata
+    xan
     zip
   ];
 

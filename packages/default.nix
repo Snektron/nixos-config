@@ -6,6 +6,7 @@
   sneksbot = pkgs.callPackage ./sneksbot { };
   nsight-compute = pkgs.callPackage ./nsight-compute.nix { };
   nsight-systems = pkgs.callPackage ./nsight-systems.nix { };
+  rocprof-compute-viewer = pkgs.callPackage ./rcv.nix { };
 
   # Re-export mesa overlay so that we can build it ahead of time
   mesa = pkgs.mesa;
