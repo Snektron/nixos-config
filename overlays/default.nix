@@ -42,9 +42,7 @@ nixpkgs: self: super: {
     '';
   });
 
-  river = (super.river.override {
-    wlroots_0_18 = self.wlroots_0_19;
-  }).overrideAttrs (old: {
+  river = super.river.overrideAttrs (old: {
     version = "3.11-git";
 
     src = self.fetchFromGitea {

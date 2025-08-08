@@ -27,6 +27,10 @@
 
   services.dbus.enable = true;
 
+  environment.systemPackages = [
+    pkgs.xdg-utils
+  ];
+
   xdg.portal = {
     enable = true;
     wlr.enable = true;
