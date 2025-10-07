@@ -94,6 +94,25 @@
     };
   };
 
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Robin Voetter";
+        email = lib.mkDefault "robin@voetter.nl";
+      };
+      ui = {
+        show-cryptographic-signature = true;
+        editor = "${pkgs.kakoune}/bin/kak";
+      };
+      signing = {
+        behavior = "own";
+        backend = "ssh";
+        key = ../keys/yk-23825499;
+      };
+    };
+  };
+
   programs.ssh = {
     enable = true;
     controlMaster = "auto";
@@ -126,7 +145,6 @@
       tabs -4
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
       set fish_greeting
-      fish_vi_key_bindings
       set -gx GPG_TTY (tty)
 
       function ghpr

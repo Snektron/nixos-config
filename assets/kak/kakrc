@@ -141,7 +141,8 @@ set-option global modelinefmt '%val{bufname} %val{cursor_line}/%val{buf_line_cou
 eval %sh{kak-lsp --kakoune -s $kak_session}
 
 hook global WinSetOption filetype=(c|cpp) -group c-cpp-lsp %{
-   lsp-enable-window
+    # LSP kinda sucks to be honest
+    lsp-disable-window
 }
 
 source "%val{config}/rc/clipb.kak"

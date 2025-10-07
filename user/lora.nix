@@ -8,6 +8,10 @@
     pkgs.virt-manager
     pkgs.libreoffice
     pkgs.prismlauncher
+    pkgs.freecad
+    (pkgs.mattermost-desktop.overrideAttrs (old: {
+      patches = (old.patches or []) ++ [ ../patches/0001-open-jitsi-urls-in-external-browser.patch ];
+    }))
   ];
 
   accounts.email = {
@@ -24,6 +28,8 @@
   programs.swaybg.image = ../assets/backgrounds/oxybelis.jpg;
 
   programs.git.userEmail = "robin@streamhpc.com";
+
+  programs.jujutsu.settings.user.email = "robin@streamhpc.com";
 
   programs.foot.settings.main.monitor-scale = "eDP-1:1, 27GL850:1.7, G2460:1.6, PL3494WQ:1.5";
 

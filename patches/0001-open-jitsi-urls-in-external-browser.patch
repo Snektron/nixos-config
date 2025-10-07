@@ -1,0 +1,29 @@
+From 09ee2d3a79ce8f48c6d7f59c0cb016f08624d865 Mon Sep 17 00:00:00 2001
+From: Robin Voetter <robin@streamhpc.com>
+Date: Tue, 7 Oct 2025 12:01:48 +0200
+Subject: [PATCH] open jitsi urls in external browser
+
+---
+ src/main/views/webContentEvents.ts | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/main/views/webContentEvents.ts b/src/main/views/webContentEvents.ts
+index 235bf076..425d8166 100644
+--- a/src/main/views/webContentEvents.ts
++++ b/src/main/views/webContentEvents.ts
+@@ -121,6 +121,12 @@ export class WebContentsEventManager {
+                 return {action: 'deny'};
+             }
+ 
++            // HACK: Open Jitsi URLs in browser
++            if (details.url.includes("jaas.html")) {
++                shell.openExternal(details.url);
++                return {action: 'deny'};
++            }
++
+             // Dev tools case
+             if (parsedURL.protocol === 'devtools:') {
+                 return {action: 'allow'};
+-- 
+2.50.1
+

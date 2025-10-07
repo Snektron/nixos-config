@@ -23,8 +23,8 @@ nixpkgs: self: super: {
   linuxPackages_latest = super.linuxPackages_latest.extend (selfnv: supernv: {
     nvidiaPackages.mkDriver = supernv.nvidiaPackages.mkDriver;
     nvidiaPackages.stable = selfnv.nvidiaPackages.mkDriver {
-      version = "575.64";
-      sha256_64bit = "sha256-6wG8/nOwbH0ktgg8J+ZBT2l5VC8G5lYBQhtkzMCtaLE=";
+      version = "580.95.05";
+      sha256_64bit = "sha256-hJ7w746EK5gGss3p8RwTA9VPGpp2lGfk5dlhsv4Rgqc=";
       openSha256 = "";
       useSettings = false;
       usePersistenced = false;
