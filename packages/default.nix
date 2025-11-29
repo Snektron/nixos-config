@@ -7,6 +7,7 @@
   nsight-compute = pkgs.callPackage ./nsight-compute.nix { };
   nsight-systems = pkgs.callPackage ./nsight-systems.nix { };
   rocprof-compute-viewer = pkgs.callPackage ./rcv.nix { };
+  git-buildpackage = pkgs.callPackage ./git-buildpackage.nix { };
 
   # Re-export mesa overlay so that we can build it ahead of time
   mesa = pkgs.mesa;

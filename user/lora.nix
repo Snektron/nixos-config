@@ -9,9 +9,7 @@
     pkgs.libreoffice
     pkgs.prismlauncher
     pkgs.freecad
-    (pkgs.mattermost-desktop.overrideAttrs (old: {
-      patches = (old.patches or []) ++ [ ../patches/0001-open-jitsi-urls-in-external-browser.patch ];
-    }))
+    pkgs.mattermost-desktop
   ];
 
   accounts.email = {

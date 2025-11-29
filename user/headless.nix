@@ -39,6 +39,8 @@
     visidata
     xan
     zip
+    inputs.self.packages.${pkgs.system}.git-buildpackage
+    dpkg
   ];
 
   xdg.enable = true;

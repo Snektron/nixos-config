@@ -72,6 +72,8 @@
 
   system.stateVersion = "22.11";
 
+  services.tailscale.enable = true;
+
   # system.nixos.tags = [ "proprietary" ];
 
   # system.nixos.tags = lib.mkForce [ "nouveau" ];

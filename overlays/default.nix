@@ -83,4 +83,8 @@ nixpkgs: self: super: {
     nativeBuildInputs = old.nativeBuildInputs ++ [ self.rust-cbindgen ];
     mesonFlags = old.mesonFlags ++ [ "-Dintel-rt=disabled" "-Dintel-clc=system" ];
   });
+
+  mattermost-desktop = super.mattermost-desktop.overrideAttrs (old: {
+    patches = (old.patches or []) ++ [ ../patches/0001-open-jitsi-urls-in-external-browser.patch ];
+  });
 }

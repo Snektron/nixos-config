@@ -48,6 +48,7 @@
     signal-desktop
     telegram-desktop
     transmission_4-qt
+    signal-desktop
     wl-clipboard
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy
