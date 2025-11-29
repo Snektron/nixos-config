@@ -4,7 +4,7 @@
   ];
 
   home.packages = with pkgs; [
-    teamspeak_client
+    teamspeak3
     ghidra
     rpcs3
     prismlauncher

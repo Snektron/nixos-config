@@ -1,7 +1,7 @@
 { inputs, pkgs, config, lib, ... }:
 let
   cfg = config.services.elderbot;
-  elderbot = inputs.self.packages.${pkgs.system}.elderbot;
+  elderbot = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.elderbot;
 in with lib; {
   options.services.elderbot = {
     enable = mkOption {

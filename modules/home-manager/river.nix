@@ -10,7 +10,7 @@ let
     systemctl --user start river-session.target
   '';
 
-  riverctl = "${pkgs.river}/bin/riverctl";
+  riverctl = "${pkgs.river-classic}/bin/riverctl";
 
   mkBindings = bindings: command: mode:
     lib.concatStrings
@@ -62,7 +62,7 @@ in {
     layoutGenerator = {
       command = mkOption {
         type = types.str;
-        default = "${pkgs.river}/bin/rivertile";
+        default = "${pkgs.river-classic}/bin/rivertile";
       };
       defaultNamespace = mkOption {
         type = types.str;

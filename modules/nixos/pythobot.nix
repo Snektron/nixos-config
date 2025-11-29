@@ -1,6 +1,6 @@
 { inputs, pkgs, config, lib, ... }:
 let
-  pythobot = inputs.self.packages.${pkgs.system}.pythobot;
+  pythobot = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pythobot;
   cfg = config.services.pythobot;
 in with lib; {
   options.services.pythobot = {

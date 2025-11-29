@@ -5,4 +5,8 @@
   src = ./.;
 
   propagatedBuildInputs = [ python-telegram-bot ];
+
+  pyproject = true;
+
+  build-system = [ setuptools ];
 }

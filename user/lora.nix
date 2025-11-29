@@ -27,7 +27,7 @@
 
   programs.swaybg.image = ../assets/backgrounds/oxybelis.jpg;
 
-  programs.git.userEmail = "robin@streamhpc.com";
+  programs.git.settings.user.email = "robin@streamhpc.com";
 
   programs.jujutsu.settings.user.email = "robin@streamhpc.com";
 

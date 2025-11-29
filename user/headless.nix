@@ -20,7 +20,7 @@
     gnupg
     htop
     jq
-    kak-lsp
+    kakoune-lsp
     kakoune
     killall
     libqalculate
@@ -73,12 +73,12 @@
 
     package = pkgs.gitFull;
 
-    userName = "Robin Voetter";
-    userEmail = lib.mkDefault "robin@voetter.nl";
+    settings = {
+      user = {
+        name = "Robin Voetter";
+        email = lib.mkDefault "robin@voetter.nl";
+      };
 
-    ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ".ccls-cache" ];
-
-    extraConfig = {
       core.autocrlf = false;
       # Force 4 space tabs
       core.pager = "less -x1,5";
@@ -94,6 +94,8 @@
       rebase.autostash = true;
       diff.algorithm = "histogram";
     };
+
+    ignores = [ ".private" ".cache" "build" ".direnv" ".envrc" ".ccls-cache" ];
   };
 
   programs.jujutsu = {
@@ -117,8 +119,7 @@
 
   programs.ssh = {
     enable = true;
-    controlMaster = "auto";
-    controlPersist = "60m";
+    enableDefaultConfig = false;
     matchBlocks = let
       trustedHosts = {
         # VPS
@@ -136,9 +137,17 @@
         "codeberg.org" = {};
         "gitlab.com" = {};
       };
-      setDefaults = defaults: hosts: builtins.mapAttrs (name: value: value // defaults) hosts;
+      common = {
+        forwardAgent = false;
+        addKeysToAgent = "yes";
+        controlPath = "~/.ssh/master-%r@%n:%p";
+        controlMaster = "auto";
+        controlPersist = "60m";
+      };
+      setDefaults = defaults: hosts: builtins.mapAttrs (name: value: common // defaults // value) hosts;
     in (setDefaults { user = "robin"; forwardAgent = true; } trustedHosts)
-    // (setDefaults { user = "git"; } gitHosts);
+    // (setDefaults { user = "git"; } gitHosts)
+    // (setDefaults { } { "*" = {}; });
   };
 
   programs.fish = {

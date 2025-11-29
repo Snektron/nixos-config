@@ -17,6 +17,12 @@ nixpkgs: self: super: {
     ];
   });
 
+  qt5 = super.qt5 // {
+    # This package is needed for ts3 client
+    # Overridden because gcc crashes for some reason...
+    qtwebengine = super.qt5.qtwebengine.override { stdenv = self.gcc15Stdenv; };
+  };
+
   # Note: We could also just set hardware.nvidia.package, but it seems that some derivations
   # use pkgs.nvidia_x11 directly rather than this option. This makes sure that we catch
   # everything.
@@ -40,22 +46,6 @@ nixpkgs: self: super: {
     postInstall = ''
       sed --in-place= 's/hostaddr=/    host=/' $out/lib/teamspeak/libts3db_postgresql.so
     '';
-  });
-
-  river = super.river.overrideAttrs (old: {
-    version = "3.11-git";
-
-    src = self.fetchFromGitea {
-      domain = "codeberg.org";
-      owner = "river";
-      repo = "river";
-      rev = "fcf8b1e44293875627e1b3b3223809ed01ebfcab";
-      hash = "sha256-SyV9FvAcQysLvBJllSUfgDo8dxeV0x3HHedQl1Ysyao=";
-    };
-
-    deps = self.callPackage ./river.zig.zon.nix {
-      zig = self.zig_0_14;
-    };
   });
 
   mesa_git = (super.mesa.override {

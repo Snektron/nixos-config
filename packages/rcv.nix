@@ -6,13 +6,13 @@
   qt6Packages
 }: stdenv.mkDerivation rec {
   pname = "rocprof-compute-viewer";
-  version = "7.0.0-pre";
+  version = "7.2.0-pre";
 
   src = fetchFromGitHub {
     owner = "ROCm";
     repo = "rocprof-compute-viewer";
-    rev = "3557f09eb3de1439956136229dce74b3af8f8e68";
-    hash = "sha256-Y4u2J988KcFjexNtnmG54PmfrO2+FJ2/QpmVvFBIqlw=";
+    rev = "156405add1b003d53b30a3843cf4a62fcf1aa68e";
+    hash = "";
   };
 
   nativeBuildInputs = [

@@ -5,4 +5,8 @@
   src = ./.;
 
   propagatedBuildInputs = [ telethon ];
+
+  pyproject = true;
+
+  build-system = [ setuptools ];
 }

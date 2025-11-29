@@ -1,7 +1,7 @@
 { inputs, pkgs, config, lib, ... }:
 let
   cfg = config.services.sneksbot;
-  sneksbot = inputs.self.packages.${pkgs.system}.sneksbot;
+  sneksbot = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.sneksbot;
 in with lib; {
   options.services.sneksbot = {
     enable = mkOption {

@@ -1,6 +1,6 @@
 # Main configuration for the VisionFive 2
 { inputs, lib, config, pkgs, modulesPath, ... }: let
-  system = pkgs.system;
+  system = pkgs.stdenv.hostPlatform.system;
   kernel = inputs.nixos-vf2.packages.${system}.kernel;
 in {
   imports = [

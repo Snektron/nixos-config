@@ -17,7 +17,7 @@
   };
 
   home.packages = with pkgs; [
-    bitwarden
+    bitwarden-desktop
     bluez
     ccls
     chromium
@@ -28,25 +28,25 @@
     gamemode
     gimp
     grim
-    inputs.self.packages.${pkgs.system}.nsight-compute
-    inputs.self.packages.${pkgs.system}.nsight-systems
-    inputs.self.packages.${pkgs.system}.pinball
-    inputs.self.packages.${pkgs.system}.rocprof-compute-viewer
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.nsight-compute
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.nsight-systems
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pinball
+    # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.rocprof-compute-viewer
     meld
     montserrat
     moreutils
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     obsidian
     obs-studio
     pavucontrol
     qcad
-    river
+    river-classic
     rivercarro
     roboto
     signal-desktop
-    tdesktop
+    telegram-desktop
     transmission_4-qt
     wl-clipboard
     xdg-desktop-portal-gtk
@@ -106,7 +106,7 @@
         "${mod} Space" = "toggle-float";
 
         "${mod} F" = "toggle-fullscreen";
-        "${mod} D" = "spawn '${pkgs.rofi-wayland}/bin/rofi -combi-modi drun,ssh -show combi -modi combi'";
+        "${mod} D" = "spawn '${pkgs.rofi}/bin/rofi -combi-modi drun,ssh -show combi -modi combi'";
 
         "${mod} H" = "send-layout-cmd rivercarro 'main-ratio -0.05'";
         "${mod} L" = "send-layout-cmd rivercarro 'main-ratio +0.05'";
@@ -183,14 +183,14 @@
   };
 
   programs.git = {
-    extraConfig.diff.tool = "meld";
+    settings.diff.tool = "meld";
   };
 
   programs.ssh = {
     # Remote servers cannot deal with TERM=foot
-    extraConfig = ''
-      SetEnv TERM=xterm-256color
-    '';
+    matchBlocks."*".setEnv = {
+      TERM = "xterm-256color";
+    };
   };
 
   programs.foot = {
@@ -260,7 +260,6 @@
 
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
     terminal = "${pkgs.foot}/bin/foot";
     extraConfig = {
       modi = "drun,ssh,combi";
@@ -393,7 +392,7 @@
       name = "Numix";
     };
     cursorTheme = {
-      package = inputs.self.packages.${pkgs.system}.breeze-obsidian-cursor-theme;
+      package = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.breeze-obsidian-cursor-theme;
       name = "Breeze_Obsidian";
     };
     iconTheme = {
@@ -403,5 +402,5 @@
   };
 
   # For good measure
-  home.file.".icons/default".source = "${inputs.self.packages.${pkgs.system}.breeze-obsidian-cursor-theme}/share/icons/Breeze_Obsidian";
+  home.file.".icons/default".source = "${inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.breeze-obsidian-cursor-theme}/share/icons/Breeze_Obsidian";
 }
