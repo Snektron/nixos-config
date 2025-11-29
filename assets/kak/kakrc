@@ -138,7 +138,7 @@ set-option global modelinefmt '%val{bufname} %val{cursor_line}/%val{buf_line_cou
 
 #plug "kakoune-editor/kakoune-extra-filetypes"
 
-eval %sh{kak-lsp --kakoune -s $kak_session}
+# eval %sh{kak-lsp --kakoune -s $kak_session}
 
 hook global WinSetOption filetype=(c|cpp) -group c-cpp-lsp %{
     # LSP kinda sucks to be honest
