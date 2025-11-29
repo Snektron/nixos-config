@@ -9,6 +9,7 @@
     rpcs3
     prismlauncher
     kicad-unstable # kicad is broken
+    freecad
     nvtopPackages.amd
   ];
 

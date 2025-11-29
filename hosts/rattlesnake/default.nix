@@ -17,7 +17,7 @@ in {
   nixpkgs = {
     overlays = [
       # Contains fixes etc for packages on RISC-V.
-      inputs.nixos-vf2.overlays.default
+      # inputs.nixos-vf2.overlays.default
     ];
     hostPlatform = "riscv64-linux";
   };

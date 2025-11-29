@@ -25,8 +25,13 @@
     dejavu_fonts
     drawio
     font-awesome_5
+    gamemode
     gimp
     grim
+    inputs.self.packages.${pkgs.system}.nsight-compute
+    inputs.self.packages.${pkgs.system}.nsight-systems
+    inputs.self.packages.${pkgs.system}.pinball
+    inputs.self.packages.${pkgs.system}.rocprof-compute-viewer
     meld
     montserrat
     moreutils
@@ -38,17 +43,14 @@
     pavucontrol
     qcad
     river
+    rivercarro
     roboto
+    signal-desktop
     tdesktop
     transmission_4-qt
     wl-clipboard
     xdg-desktop-portal-gtk
     xdg-utils # xdg-open required for foot url thingy
-    inputs.self.packages.${pkgs.system}.pinball
-    inputs.self.packages.${pkgs.system}.nsight-compute
-    inputs.self.packages.${pkgs.system}.nsight-systems
-    inputs.self.packages.${pkgs.system}.rocprof-compute-viewer
-    rivercarro
   ];
 
   fonts.fontconfig.enable = true;
